@@ -28,7 +28,7 @@ export default function Button({
 }: ButtonProps) {
     return (
         <button className={clsxm(
-            "relative px-6 py-3 rounded-2xl",
+            "relative px-6 py-3 ",
             [
                 color === "Light" && "bg-white",
                 color === "Dark" && "bg-black"

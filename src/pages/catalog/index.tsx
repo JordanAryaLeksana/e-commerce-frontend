@@ -1,5 +1,4 @@
 
-'use client';
 import Layout from "@/components/layout/layout";
 import Typography from "@/components/Typography/Typography";
 import { RootState } from "@/store/store";
@@ -8,18 +7,30 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import Image from "next/image";
 import { setJenisTopup, setNominalTopup, setNomorTopup } from "@/store/slice/topupSlice";
-import { fetchItems } from "@/store/slice/itemsSlice";
+import { fetchItems, getItemsByCategory } from "@/store/slice/itemsSlice";
 import type { AppDispatch } from "@/store/store";
+import { HiBookOpen, HiCurrencyDollar, HiOutlineHeart } from "react-icons/hi";
+import { AiFillAppstore } from "react-icons/ai";
+import { FaTools } from "react-icons/fa";
+import { SiBlueprint } from "react-icons/si";
+import { BooleanAction, setAction, setIsOpen } from "@/store/slice/booleanSlice";
 
 export default function CartItems() {
     const { jenisTopup, nomorTopup, nominalTopup } = useSelector(
         (state: RootState) => state.topup
     );
     const dispatch = useDispatch<AppDispatch>();
+    const { action } = useSelector((state: RootState) => state.boolean);
     const { items: products } = useSelector((state: RootState) => state.items);
+    const filteredItems = useSelector((state: RootState) => state.items.category)
+    const filteredProducts = filteredItems.filter((item) => item.type === action);
     const loading = useSelector((state: RootState) => state.items.loading);
-    const tabs = ["Listrik", "P2ulsa", "Data"];
-    console.log("Products:", products);
+    const HandleClickCategory = (category: BooleanAction) => {
+        dispatch(setIsOpen(true));
+        dispatch(setAction(category));
+        dispatch(getItemsByCategory(category));
+    }
+
     useEffect(() => {
         const token = localStorage.getItem("access_token");
         if (!token || token === "null" || token === "undefined") {
@@ -52,129 +63,197 @@ export default function CartItems() {
                 </motion.section>
 
                 {/* Kategori Pilihan & Top Up */}
-                <motion.div className="w-full flex flex-col lg:flex-row gap-5 rounded-2xl bg-white p-6 text-black">
+                <motion.div className="w-full flex flex-col gap-5 rounded-2xl bg-white p-6 text-black">
                     {/* Kategori Pilihan */}
-                    <motion.div className="flex flex-col w-full lg:w-1/2">
-                        <Typography size="2xl" type="Header" className="text-zinc-900 mb-4">Kategori Pilihan</Typography>
-                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                            {Array.from({ length: 6 }).map((_, idx) => (
-                                <motion.div
-                                    key={idx}
-                                    whileHover={{ scale: 1.05 }}
-                                    className="bg-neutral-100 rounded-xl h-24 flex items-center justify-center"
-                                >
-                                    <Typography size="base" type="Paragraph" className="text-zinc-700 font-medium">Kategori {idx + 1}</Typography>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </motion.div>
-
-                    {/* Top Up & Tagihan */}
-                    <motion.div className="flex flex-col w-full lg:w-1/2">
-                        <div className="flex justify-start items-center gap-3">
-                            <Typography size="2xl" type="Header" className="text-zinc-900">Top Up & Tagihan</Typography>
-                            <button className="text-red-600 text-sm font-semibold hover:underline">Lihat Semua</button>
-                        </div>
-
-                        {/* Tabs */}
-                        <motion.div className="flex border-b border-zinc-200">
-                            {tabs.map((tab, idx) => {
-                                const tabKey = tab.toLowerCase();
-
-                                return (
-                                    <button
-                                        key={idx}
-
-                                        className={`px-4 py-2 font-semibold text-sm transition-al`}
-                                    >
-                                        <Typography size="sm" type="Paragraph">{tab}</Typography>
-                                    </button>
-                                );
-                            })}
-                        </motion.div>
-
-                        {/* Form */}
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ duration: 0.5 }}
-                            className="mt-6 grid grid-cols-1 md:grid-cols-4 gap-4"
-                        >
-                            <div className="flex flex-col">
-                                <Typography size="sm" type="Paragraph" className="text-zinc-700 font-semibold mb-1">Jenis Produk Listrik</Typography>
-                                <select
-                                    value={jenisTopup}
-                                    onChange={(e) => setJenisTopup(e.target.value)}
-                                    className="rounded-md border border-zinc-300 px-3 py-2 text-sm text-zinc-800"
-                                >
-                                    <option>Token Listrik</option>
-                                    <option>Tagihan Listrik</option>
-                                </select>
-                            </div>
-
-                            <div className="flex flex-col">
-                                <Typography size="sm" type="Paragraph" className="text-zinc-700 font-semibold mb-1">No. Meter/ID Pel</Typography>
-                                <input
-                                    type="text"
-                                    value={nomorTopup}
-                                    onChange={(e) => setNomorTopup(e.target.value)}
-                                    placeholder="Masukkan Nomor"
-                                    className="rounded-md border border-zinc-300 px-3 py-2 text-sm text-zinc-800"
-                                />
-                            </div>
-
-                            <div className="flex flex-col">
-                                <Typography size="sm" type="Paragraph" className="text-zinc-700 font-semibold mb-1">Nominal</Typography>
-                                <select
-                                    value={nominalTopup}
-                                    onChange={(e) => setNominalTopup(e.target.value)}
-                                    className="rounded-md border border-zinc-300 px-3 py-2 text-sm text-zinc-800"
-                                >
-                                    <option>20rb</option>
-                                    <option>50rb</option>
-                                    <option>100rb</option>
-                                </select>
-                            </div>
-
-                            <div className="flex items-end">
-                                <button
-                                    onClick={handleBayar}
-                                    disabled={!nomorTopup}
-                                    className={`w-full rounded-md px-4 py-2 font-semibold text-sm transition-all ${nomorTopup
-                                        ? "bg-red-600 text-white hover:bg-red-700"
-                                        : "bg-zinc-200 text-zinc-400 cursor-not-allowed"
-                                        }`}
-                                >
-                                    <Typography size="sm" type="Paragraph">Bayar</Typography>
-                                </button>
-                            </div>
-                        </motion.div>
-                    </motion.div>
-                    <section className="w-full h-auto rounded-2xl bg-white p-10 text-black">
-                        <Typography size="2xl" type="Header" className="text-zinc-900 mb-4">Berdasarkan Pencarianmu</Typography>
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-
-                            {Array.isArray(products) && products.length > 0 ? (
-                                products.map((product, idx) => (
+                    <motion.div className="flex flex-col md:flex-row w-full ">
+                        <motion.div className="flex flex-col w-full lg:w-1/2">
+                            <Typography size="2xl" type="Header" className="text-zinc-900 mb-4">Kategori Pilihan</Typography>
+                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                                {!loading && filteredProducts.map((item) => (
                                     <motion.div
-                                        key={idx}
+                                        key={item.id}
                                         whileHover={{ scale: 1.05 }}
-                                        className="bg-neutral-100 h-40 rounded-md flex items-center justify-center"
+                                        className="w-60 bg-white rounded-2xl border-[1.5px] border-gray-300 shadow-lg hover:shadow-red-400/60 transition-shadow duration-300 relative overflow-hidden"
                                     >
-                                        <Typography size="base" type="Paragraph" className="text-zinc-700">{product.name || `Product ${idx + 1}`}</Typography>
+                                        <div className="p-4">
+                                            <Image
+                                                src={item.image || "/placeholder.png"}
+                                                alt={item.name}
+                                                width={240}
+                                                height={180}
+                                                className="w-full h-40 object-contain rounded-md bg-gray-100"
+                                            />
+                                            <Typography
+                                                size="xl"
+                                                type="Paragraph"
+                                                className="mt-3 text-black font-heading font-extrabold tracking-tight"
+                                            >
+                                                {item.name || `Product ${item.id}`}
+                                            </Typography>
+                                        </div>
                                     </motion.div>
-                                ))
-                            ) : (
-                                <motion.div
-                                    whileHover={{ scale: 1.05 }}
-                                    className="bg-neutral-100 h-40 rounded-md flex items-center justify-center"
-                                >
-                                    <Typography size="base" type="Paragraph" className="text-zinc-700">Loading products...</Typography>
-                                </motion.div>
-                            )}
-                        </div>
-                    </section>
+                                ))}
+                                {loading && (
+                                    <Typography size="base" type="Paragraph" className="text-zinc-700">Loading...</Typography>
+                                )}
+                            </div>
+                        </motion.div>
+
+                        {/* Top Up & Tagihan */}
+                        <motion.div className="flex flex-col w-full lg:w-1/2">
+                            <div className="flex justify-start items-center gap-3">
+                                <Typography size="2xl" type="Header" className="text-zinc-900">Top Up & Tagihan</Typography>
+                                <button className="text-red-600 text-sm font-semibold hover:underline">Lihat Semua</button>
+                            </div>
+
+                            {/* Tabs */}
+                            <motion.div className="flex border border-zinc-200">
+
+                            </motion.div>
+
+                            {/* Form */}
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ duration: 0.5 }}
+                                className="mt-6 grid grid-cols-1 md:grid-cols-4 gap-4"
+                            >
+                                <div className="flex flex-col">
+                                    <Typography size="sm" type="Paragraph" className="text-zinc-700 font-semibold mb-1">Jenis Produk Listrik</Typography>
+                                    <select
+                                        value={jenisTopup}
+                                        onChange={(e) => setJenisTopup(e.target.value)}
+                                        className="rounded-md border border-zinc-300 px-3 py-2 text-sm text-zinc-800"
+                                    >
+                                        <option>Token Listrik</option>
+                                        <option>Tagihan Listrik</option>
+                                    </select>
+                                </div>
+
+                                <div className="flex flex-col">
+                                    <Typography size="sm" type="Paragraph" className="text-zinc-700 font-semibold mb-1">No. Meter/ID Pel</Typography>
+                                    <input
+                                        type="text"
+                                        value={nomorTopup}
+                                        onChange={(e) => setNomorTopup(e.target.value)}
+                                        placeholder="Masukkan Nomor"
+                                        className="rounded-md border border-zinc-300 px-3 py-2 text-sm text-zinc-800"
+                                    />
+                                </div>
+
+                                <div className="flex flex-col">
+                                    <Typography size="sm" type="Paragraph" className="text-zinc-700 font-semibold mb-1">Nominal</Typography>
+                                    <select
+                                        value={nominalTopup}
+                                        onChange={(e) => setNominalTopup(e.target.value)}
+                                        className="rounded-md border border-zinc-300 px-3 py-2 text-sm text-zinc-800"
+                                    >
+                                        <option>20rb</option>
+                                        <option>50rb</option>
+                                        <option>100rb</option>
+                                    </select>
+                                </div>
+
+                                <div className="flex items-end">
+                                    <button
+                                        onClick={handleBayar}
+                                        disabled={!nomorTopup}
+                                        className={`w-full rounded-md px-4 py-2 font-semibold text-sm transition-all ${nomorTopup
+                                            ? "bg-red-600 text-white hover:bg-red-700"
+                                            : "bg-zinc-200 text-zinc-400 cursor-not-allowed"
+                                            }`}
+                                    >
+                                        <Typography size="sm" type="Paragraph">Bayar</Typography>
+                                    </button>
+                                </div>
+                            </motion.div>
+                        </motion.div>
+                    </motion.div>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-center gap-2 mt-4">
+                        <motion.div className="flex flex-row gap-2 border justify-center border-red-700 rounded-sm py-1 px-2 bg-red-700">
+                            <AiFillAppstore className="text-white text-2xl" />
+                            <Typography size="xl" type="Paragraph" className={`text-white font-black`}>Category</Typography>
+                        </motion.div>
+
+                        <button className="flex items-center  gap-2 px-2 py-1 rounded-sm text-red-600  border border-red-700" onClick={() => HandleClickCategory(BooleanAction.books)}>
+                            <HiBookOpen className="text-red-600 text-2xl" />
+                            <Typography size="base" type="Paragraph" className={`text-red-600 font-semibold`}>Books</Typography>
+                        </button>
+                        <button className="flex items-center gap-2 px-2 py-1 rounded-sm  text-red-600  border border-red-700" onClick={() => HandleClickCategory(BooleanAction.tools)}>
+                            <FaTools className="text-red-600 text-2xl" />
+                            <Typography size="base" type="Paragraph" className={`text-red-600 font-semibold`}>Tools</Typography>
+                        </button>
+                        <button className="flex items-center gap-2 px-2 py-1 rounded-sm text-red-600  border border-red-700" onClick={() => HandleClickCategory(BooleanAction.projects)}>
+                            <SiBlueprint className="text-red-600 text-2xl" />
+                            <Typography size="base" type="Paragraph" className={`text-red-600 font-semibold`}>Blueprints</Typography>
+                        </button>
+                    </div>
                 </motion.div>
+                <section className="w-full h-auto rounded-2xl bg-white p-10 text-black">
+                    <Typography size="2xl" type="Header" className="text-zinc-900 mb-4">Berdasarkan Pencarianmu</Typography>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+
+                        {Array.isArray(products) && products.length > 0 ? (
+                            products.map((product, idx) => (
+                                <motion.div
+                                    key={product.id}
+                                    whileHover={{ scale: 1.05 }}
+                                    className="max-w-60 w-full bg-white rounded-2xl border-[1.5px] border-gray-300 shadow-lg hover:shadow-red-400/60 transition-shadow duration-300 relative overflow-hidden"
+                                >
+                                    {/* Tombol bookmark / simpan */}
+                                    <button className="absolute top-3 right-3 bg-white rounded-full p-2 shadow-md hover:bg-red-600 hover:text-white transition-colors">
+                                        <HiOutlineHeart className="text-lg" />
+                                    </button>
+
+                                    <div className="p-4">
+                                        {/* Gambar Produk */}
+                                        <Image
+                                            src={product.image || "/placeholder.png"}
+                                            alt={product.name}
+                                            width={240}
+                                            height={180}
+                                            className="w-full h-40 object-contain rounded-md bg-gray-100"
+                                        />
+
+                                        {/* Nama Produk */}
+                                        <Typography
+                                            size="xl"
+                                            type="Paragraph"
+                                            className="mt-3 text-black font-heading font-extrabold tracking-tight"
+                                        >
+                                            {product.name || `Product ${product.id}`}
+                                        </Typography>
+
+                                        {/* Deskripsi singkat */}
+                                        <p className="text-sm text-gray-500 font-body mt-1">
+                                            {product.description || "Deskripsi produk belum tersedia"}
+                                        </p>
+
+                                        {/* Harga dan label */}
+                                        <div className="mt-3 flex items-center justify-between">
+                                            <Typography
+                                                size="2xl"
+                                                type="Paragraph"
+                                                className="flex items-center text-red-600 font-bold"
+                                            >
+                                                <HiCurrencyDollar className="mr-1" />
+                                                {product.price || `-`}
+                                            </Typography>
+
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            ))
+                        ) : (
+                            <motion.div
+                                whileHover={{ scale: 1.05 }}
+                                className="bg-neutral-100 h-40 rounded-md flex items-center justify-center"
+                            >
+                                <Typography size="base" type="Paragraph" className="text-zinc-700">Loading products...</Typography>
+                            </motion.div>
+                        )}
+                    </div>
+                </section>
 
 
 
@@ -190,19 +269,52 @@ export default function CartItems() {
                                     <motion.div
                                         key={product.id}
                                         whileHover={{ scale: 1.05 }}
-                                        className="bg-neutral-100 h-40 rounded-md flex items-center justify-center"
+                                        className="max-w-60 w-full bg-white rounded-2xl border-[1.5px] border-gray-300 shadow-lg hover:shadow-red-400/60 transition-shadow duration-300 relative overflow-hidden"
                                     >
-                                        <Typography size="base" type="Paragraph" className="text-black">
-                                            {product.description || `Product ${product.id}`}
-                                        </Typography>
-                                        <Image
-                                            src={product.image || "/placeholder.png"}
-                                            alt={product.name}
-                                            width={100}
-                                            height={100}
-                                            className="rounded-md"
-                                        />
+                                        {/* Tombol bookmark / simpan */}
+                                        <button className="absolute top-3 right-3 bg-white rounded-full p-2 shadow-md hover:bg-red-600 hover:text-white transition-colors">
+                                            <HiOutlineHeart className="text-lg" />
+                                        </button>
+
+                                        <div className="p-4">
+                                            {/* Gambar Produk */}
+                                            <Image
+                                                src={product.image || "/placeholder.png"}
+                                                alt={product.name}
+                                                width={240}
+                                                height={180}
+                                                className="w-full h-40 object-contain rounded-md bg-gray-100"
+                                            />
+
+                                            {/* Nama Produk */}
+                                            <Typography
+                                                size="xl"
+                                                type="Paragraph"
+                                                className="mt-3 text-black font-heading font-extrabold tracking-tight"
+                                            >
+                                                {product.name || `Product ${product.id}`}
+                                            </Typography>
+
+                                            {/* Deskripsi singkat */}
+                                            <p className="text-sm text-gray-500 font-body mt-1">
+                                                {product.description || "Deskripsi produk belum tersedia"}
+                                            </p>
+
+                                            {/* Harga dan label */}
+                                            <div className="mt-3 flex items-center justify-between">
+                                                <Typography
+                                                    size="2xl"
+                                                    type="Paragraph"
+                                                    className="flex items-center text-red-600 font-bold"
+                                                >
+                                                    <HiCurrencyDollar className="mr-1" />
+                                                    {product.price || `-`}
+                                                </Typography>
+
+                                            </div>
+                                        </div>
                                     </motion.div>
+
                                 ))
                             ) : (
                                 <Typography size="base" type="Paragraph" className="text-zinc-700">Tidak ada produk tersedia</Typography>
@@ -210,7 +322,7 @@ export default function CartItems() {
                         )}
                     </div>
                 </section>
-            </div>
-        </Layout>
+            </div >
+        </Layout >
     );
 }

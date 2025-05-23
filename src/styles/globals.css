@@ -2,7 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url("./fonts/style.css") @import url("./toastify-vintage.css");
+@import url("./public/style.css") 
+@import url("./toastify-vintage.css");
 
 input:-webkit-autofill,
 input:-webkit-autofill:hover,

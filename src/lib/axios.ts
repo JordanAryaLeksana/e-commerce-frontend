@@ -1,17 +1,17 @@
 import axios from "axios";
 
 const axiosClient = axios.create({
-    baseURL: "http://localhost:8000/api/",
+    baseURL: "http://localhost:8000/api",
     headers: {
         "Content-Type": "application/json",
     },
 })
 axiosClient.interceptors.request.use((config) => {
     const token = localStorage.getItem("access_token");
-    console.log("token", token)
     if(config.headers){
         config.headers.Authorization = token ? `Bearer ${token}` : '';
     }
+    console.log("Request made with ", config);
     return config;
 })
 

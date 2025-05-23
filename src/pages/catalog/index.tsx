@@ -1,4 +1,5 @@
-
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
 import Layout from "@/components/layout/layout";
 import Typography from "@/components/Typography/Typography";
 import { RootState } from "@/store/store";
@@ -14,11 +15,34 @@ import { AiFillAppstore } from "react-icons/ai";
 import { FaTools } from "react-icons/fa";
 import { SiBlueprint } from "react-icons/si";
 import { BooleanAction, setAction, setIsOpen } from "@/store/slice/booleanSlice";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 export default function CartItems() {
+    const responsive = {
+        superLargeDesktop: {
+            // the naming can be any, depends on you.
+            breakpoint: { max: 4000, min: 3000 },
+            items: 1
+        },
+        desktop: {
+            breakpoint: { max: 3000, min: 1024 },
+            items: 1
+        },
+        tablet: {
+            breakpoint: { max: 1024, min: 464 },
+            items: 1
+        },
+        mobile: {
+            breakpoint: { max: 464, min: 0 },
+            items: 1
+        }
+    };
     const { jenisTopup, nomorTopup, nominalTopup } = useSelector(
         (state: RootState) => state.topup
     );
+
+
     const dispatch = useDispatch<AppDispatch>();
     const { action } = useSelector((state: RootState) => state.boolean);
     const { items: products } = useSelector((state: RootState) => state.items);
@@ -35,7 +59,6 @@ export default function CartItems() {
         const token = localStorage.getItem("access_token");
         if (!token || token === "null" || token === "undefined") {
             window.location.href = "/login";
-            console.log("Token tidak ada, redirecting to login", token);
         } else {
             dispatch(fetchItems()).unwrap().then((res) => {
                 console.log("Items fetched:", res);
@@ -44,6 +67,7 @@ export default function CartItems() {
         }
     }, [dispatch]);
 
+
     const handleBayar = () => {
         console.log("Bayar dengan data:", { jenisTopup, nomorTopup, nominalTopup });
     };
@@ -51,16 +75,58 @@ export default function CartItems() {
     return (
         <Layout withNavbar withFooter withHeader>
             <div className="w-full min-h-screen bg-zinc-900 mt-32 p-10 space-y-10 text-white">
-
                 {/* Carousel */}
-                <motion.section
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6 }}
-                    className="h-60 w-full rounded-2xl bg-red-600 flex items-center justify-center"
+                <Carousel
+                    swipeable={true}
+                    draggable={true}
+                    showDots={true}
+                    customDot={<CustomDot />}
+                    responsive={responsive}
+                    ssr={true}
+                    infinite={true}
+                    autoPlay={true}
+                    autoPlaySpeed={3000}
+                    keyBoardControl={true}
+                    customTransition="all .7s ease"
+                    transitionDuration={2000}
+                    containerClass="carousel-container"
+                    removeArrowOnDeviceType={["tablet", "mobile"]}
+
                 >
-                    <Typography size="xl" type="Header">Carousel Section</Typography>
-                </motion.section>
+
+                    <motion.section
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                        className="h-60 w-full rounded-2xl bg-red-600 flex items-center justify-center"
+                    >
+                        4
+                    </motion.section>
+                    <motion.section
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                        className="h-60 w-full rounded-2xl bg-green-500 flex items-center justify-center"
+                    >
+                        1
+                    </motion.section>
+                    <motion.section
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                        className="h-60 w-full rounded-2xl bg-blue-600 flex items-center justify-center"
+                    >
+                        2
+                    </motion.section>
+                    <motion.section
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                        className="h-60 w-full rounded-2xl bg-yellow-600 flex items-center justify-center"
+                    >
+                        3
+                    </motion.section>
+                </Carousel>
 
                 {/* Kategori Pilihan & Top Up */}
                 <motion.div className="w-full flex flex-col gap-5 rounded-2xl bg-white p-6 text-black">
@@ -192,7 +258,6 @@ export default function CartItems() {
                 <section className="w-full h-auto rounded-2xl bg-white p-10 text-black">
                     <Typography size="2xl" type="Header" className="text-zinc-900 mb-4">Berdasarkan Pencarianmu</Typography>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-
                         {Array.isArray(products) && products.length > 0 ? (
                             products.map((product, idx) => (
                                 <motion.div
@@ -200,48 +265,50 @@ export default function CartItems() {
                                     whileHover={{ scale: 1.05 }}
                                     className="max-w-60 w-full bg-white rounded-2xl border-[1.5px] border-gray-300 shadow-lg hover:shadow-red-400/60 transition-shadow duration-300 relative overflow-hidden"
                                 >
-                                    {/* Tombol bookmark / simpan */}
-                                    <button className="absolute top-3 right-3 bg-white rounded-full p-2 shadow-md hover:bg-red-600 hover:text-white transition-colors">
-                                        <HiOutlineHeart className="text-lg" />
-                                    </button>
+                                    <Link href={`/catalog/${product.type}/${product.name}`} className="flex flex-row w-full h-auto ">
+                                        {/* Tombol bookmark / simpan */}
+                                        <button className="absolute top-3 right-3 bg-white rounded-full p-2 shadow-md hover:bg-red-600 hover:text-white transition-colors">
+                                            <HiOutlineHeart className="text-lg" />
+                                        </button>
 
-                                    <div className="p-4">
-                                        {/* Gambar Produk */}
-                                        <Image
-                                            src={product.image || "/placeholder.png"}
-                                            alt={product.name}
-                                            width={240}
-                                            height={180}
-                                            className="w-full h-40 object-contain rounded-md bg-gray-100"
-                                        />
+                                        <div className="p-4">
+                                            {/* Gambar Produk */}
+                                            <Image
+                                                src={product.image || "/placeholder.png"}
+                                                alt={product.name}
+                                                width={240}
+                                                height={180}
+                                                className="w-full h-40 object-contain rounded-md bg-gray-100"
+                                            />
 
-                                        {/* Nama Produk */}
-                                        <Typography
-                                            size="xl"
-                                            type="Paragraph"
-                                            className="mt-3 text-black font-heading font-extrabold tracking-tight"
-                                        >
-                                            {product.name || `Product ${product.id}`}
-                                        </Typography>
-
-                                        {/* Deskripsi singkat */}
-                                        <p className="text-sm text-gray-500 font-body mt-1">
-                                            {product.description || "Deskripsi produk belum tersedia"}
-                                        </p>
-
-                                        {/* Harga dan label */}
-                                        <div className="mt-3 flex items-center justify-between">
+                                            {/* Nama Produk */}
                                             <Typography
-                                                size="2xl"
+                                                size="xl"
                                                 type="Paragraph"
-                                                className="flex items-center text-red-600 font-bold"
+                                                className="mt-3 text-black font-heading font-extrabold tracking-tight"
                                             >
-                                                <HiCurrencyDollar className="mr-1" />
-                                                {product.price || `-`}
+                                                {product.name || `Product ${product.id}`}
                                             </Typography>
 
+                                            {/* Deskripsi singkat */}
+                                            <p className="text-sm text-gray-500 font-body mt-1">
+                                                {product.description || "Deskripsi produk belum tersedia"}
+                                            </p>
+
+                                            {/* Harga dan label */}
+                                            <div className="mt-3 flex items-center justify-between">
+                                                <Typography
+                                                    size="2xl"
+                                                    type="Paragraph"
+                                                    className="flex items-center text-red-600 font-bold"
+                                                >
+                                                    <HiCurrencyDollar className="mr-1" />
+                                                    {product.price || `-`}
+                                                </Typography>
+
+                                            </div>
                                         </div>
-                                    </div>
+                                    </Link>
                                 </motion.div>
                             ))
                         ) : (
@@ -326,3 +393,22 @@ export default function CartItems() {
         </Layout >
     );
 }
+
+type CustomDotProps = {
+    onClick?: React.MouseEventHandler<HTMLButtonElement>;
+    active?: boolean;
+    [key: string]: any;
+};
+
+const CustomDot = ({ onClick, ...rest }: CustomDotProps) => {
+    const { active } = rest;
+    return (
+        <li>
+            <button
+                onClick={onClick}
+                className={`w-3 h-3 mx-1 rounded-full border 
+          ${active ? "bg-white border-white" : "bg-transparent border-white/50"}`}
+            />
+        </li>
+    );
+};

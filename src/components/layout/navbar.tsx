@@ -6,8 +6,8 @@ import Link from "next/link";
 const Links = [
     { name: "Home", href: "/" },
     { name: "Shop", href: "/catalog" },
-    { name: "On Sale", href: "/on-sale" },
-    { name: "New Arrivals", href: "/new-arrivals" },
+    { name: "On Sale", href: "/onsale" },
+    { name: "New Arrivals", href: "/new-arrival" },
     { name: "Brands", href: "/brands" },
 ]
 

@@ -78,7 +78,7 @@ export default function Brands() {
 
     return (
         <Layout withNavbar withFooter >
-            <div className="w-full min-h-screen bg-black mt-10 text-white">
+            <div className="w-full min-h-screen bg-gradient-to-r from-gray-900 via-gray-800 to-red-900  mt-10 text-white">
                 {/* Hero Section */}
                 <motion.section
                     initial={{ opacity: 0, y: -30 }}
@@ -120,6 +120,39 @@ export default function Brands() {
                         }}
                         className="absolute top-10 right-10 w-20 h-20 border-2 border-white/20 rotate-45"
                     />
+                    <motion.div
+                        animate={{
+                            rotate: [0, 360]
+                        }}
+                        transition={{
+                            duration: 20,
+                            repeat: Infinity,
+                            ease: "linear"
+                        }}
+                        className="absolute bottom-10 left-10 w-20 h-20 border-2 border-white/20 rotate-45"
+                    />
+                    <motion.div
+                        animate={{
+                            rotate: [0, 360]
+                        }}
+                        transition={{
+                            duration: 20,
+                            repeat: Infinity,
+                            ease: "linear"
+                        }}
+                        className="absolute top-10 left-10 w-20 h-20 border-2 border-white/20 rotate-45"
+                    />
+                    <motion.div
+                        animate={{
+                            rotate: [0, 360]
+                        }}
+                        transition={{
+                            duration: 20,
+                            repeat: Infinity,
+                            ease: "linear"
+                        }}
+                        className="absolute bottom-10 right-10 w-20 h-20 border-2 border-white/20 rotate-45"
+                    />
                 </motion.section>
 
 
@@ -128,114 +161,211 @@ export default function Brands() {
                     variants={containerVariants}
                     initial="hidden"
                     animate="visible"
-                    className="max-w-6xl mx-auto px-4 py-10"
+                    className="max-w-6xl bg-tra mx-auto px-4 py-10"
                 >
                     <motion.div
                         variants={itemVariants}
+                        animate={{
+                            backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"]
+                        }}
+                        transition={{
+                            duration: 2,
+                            repeat: 0,
+                            ease: "easeInOut"
+
+                        }}
+                        initial="hidden"
+
+                        whileInView={{ opacity: 1, y: 0 }}
+
                         className="text-center mb-10"
                     >
                         <Typography size="2xl" type="Header" className="font-black text-white tracking-wider mb-2">
                             FEATURED BRANDS
                         </Typography>
-                        <div className="w-16 h-1 bg-red-600 mx-auto" />
+                        <motion.div
+
+                            initial={{ width: 0 }}
+                            whileInView={{ width: "6rem" }}
+                            transition={{ delay: 0.5, duration: 1 }}
+                            className="h-1 bg-red-600 mx-auto rounded-full" />
                     </motion.div>
+                    {/* Brands Grid */}
+                    <motion.section className="py-16">
+                        <div className="max-w-6xl mx-auto px-4">
+                            <motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {brands.map((brand) => (
+                                    <motion.div
+                                        key={brand.id}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: brand.id * 0.1 }}
+                                        whileHover={{
+                                            y: -12,
+                                            scale: 1.02,
+                                            rotateY: 5,
+                                            transition: { type: "spring", stiffness: 400 }
+                                        }}
+                                        whileTap={{ scale: 0.98 }}
+                                        className="bg-gray-800 border border-gray-700 hover:border-red-600 rounded-lg overflow-hidden transition-all duration-300"
+                                    >
+                                        <Link href={`/brands/${brand.name.toLowerCase()}`} className="block">
 
-                    <motion.div
-                        variants={containerVariants}
-                        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-                    >
-                        {brands.map((brand) => (
-                            <motion.div
-                                key={brand.id}
-                                variants={itemVariants}
-                                whileHover={{ y: -5 }}
-                                className="group relative bg-zinc-900 border border-zinc-800 hover:border-red-600 transition-all duration-300"
-                            >
-                                <Link href={`/brands/${brand.name.toLowerCase()}`} className="block">
-                                    {/* Hot Badge */}
-                                    {brand.isHot && (
-                                        <div className="absolute top-3 right-3 z-10 bg-red-600 text-white px-2 py-1 text-xs font-black">
-                                            HOT
-                                        </div>
-                                    )}
+                                            {brand.isHot && (
+                                                <div className="absolute top-3 right-3 z-10 bg-red-600 text-white px-2 py-1 text-xs font-bold rounded">
+                                                    HOT
+                                                </div>
+                                            )}
 
-                                    {/* Brand Logo */}
-                                    <div className="relative h-48 bg-white overflow-hidden">
-                                        <Image
-                                            src={brand.logo}
-                                            alt={brand.name}
-                                            width={300}
-                                            height={200}
-                                            className="w-full h-full object-contain p-8 group-hover:scale-105 transition-transform duration-300"
-                                        />
-
-                                        {/* Overlay */}
-                                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                                            <div className="bg-white text-black px-4 py-2 text-sm font-black tracking-wide">
-                                                VIEW BRAND
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Brand Info */}
-                                    <div className="p-5">
-                                        <Typography
-                                            size="lg"
-                                            type="Header"
-                                            className="font-black text-white tracking-wide mb-2"
-                                        >
-                                            {brand.name}
-                                        </Typography>
-
-                                        <Typography
-                                            size="sm"
-                                            type="Paragraph"
-                                            className="text-zinc-400 mb-3"
-                                        >
-                                            {brand.description}
-                                        </Typography>
-
-                                        <div className="flex items-center justify-between">
-                                            <div className="text-xs text-red-600 font-bold tracking-wider uppercase">
-                                                {brand.category}
+                                            {/* Brand Logo */}
+                                            <div className="relative h-48 bg-white overflow-hidden">
+                                                <Image
+                                                    src={brand.logo}
+                                                    alt={brand.name}
+                                                    width={300}
+                                                    height={200}
+                                                    className="w-full h-full object-contain p-8 hover:scale-105 transition-transform duration-300"
+                                                />
                                             </div>
 
-                                            <motion.div
-                                                whileHover={{ scale: 1.05 }}
-                                                className="bg-red-600 text-white px-3 py-1 text-xs font-black tracking-wide hover:bg-red-700 transition-colors"
-                                            >
-                                                EXPLORE
-                                            </motion.div>
-                                        </div>
-                                    </div>
-                                </Link>
+                                            {/* Brand Info */}
+                                            <div className="p-5">
+                                                <Typography
+                                                    type="Header"
+                                                    size="lg"
+                                                    className="text-white font-bold mb-2"
+                                                >
+                                                    {brand.name}
+                                                </Typography>
+
+                                                <Typography
+                                                    type="Paragraph"
+                                                    size="sm"
+                                                    className="text-gray-400 mb-3"
+                                                >
+                                                    {brand.description}
+                                                </Typography>
+
+                                                <div className="flex items-center justify-between">
+                                                    <span className="text-xs text-red-600 font-bold uppercase tracking-wider">
+                                                        {brand.category}
+                                                    </span>
+
+                                                    <button className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 text-xs font-bold tracking-wide transition-colors rounded">
+                                                        EXPLORE
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </Link>
+                                    </motion.div>
+                                ))}
                             </motion.div>
-                        ))}
-                    </motion.div>
+                        </div>
+                    </motion.section>
                 </motion.section>
-
-                {/* CTA Section */}
                 <motion.section
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
+                    initial={{ opacity: 0, y: 50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="bg-zinc-900 py-12 border-t border-zinc-800"
+                    transition={{ duration: 0.8 }}
+                    className="relative py-20 mt-16 overflow-hidden"
                 >
-                    <div className="max-w-4xl mx-auto text-center px-4">
-                        <Typography size="2xl" type="Header" className="font-black text-white mb-3 tracking-wide">
-                            BECOME A BRAND PARTNER
-                        </Typography>
-                        <Typography size="base" type="Paragraph" className="text-zinc-400 mb-6">
-                            Join our curated selection of premium streetwear brands
-                        </Typography>
+                    <div className="absolute inset-0 bg-gradient-to-br from-gray-800 via-red-800 to-red-900">
+                        <motion.div
+                            animate={{
+                                backgroundPosition: ["0% 0%", "100% 100%", "0% 0%"]
+                            }}
+                            transition={{
+                                duration: 15,
+                                repeat: Infinity,
+                                ease: "linear"
+                            }}
+                            className="absolute inset-0 bg-gradient-to-r from-gray-800 via-red-800 to-red-900 bg-[length:400%_400%]"
+                        />
 
-                        <motion.button
-                            whileHover={{ scale: 1.03 }}
-                            whileTap={{ scale: 0.97 }}
-                            className="bg-red-600 text-white px-8 py-3 font-black tracking-wide hover:bg-red-700 transition-colors"
+                        {[...Array(8)].map((_, i) => (
+                            <motion.div
+                                key={i}
+                                animate={{
+                                    y: [-20, 20, -20],
+                                    x: [-10, 10, -10],
+                                    rotate: [0, 180, 360],
+                                    scale: [1, 1.2, 1]
+                                }}
+                                transition={{
+                                    duration: 8 + i,
+                                    repeat: Infinity,
+                                    ease: "easeInOut",
+                                    delay: i * 0.5
+                                }}
+                                style={{
+                                    left: `${10 + i * 12}%`,
+                                    top: `${20 + (i % 3) * 20}%`
+                                }}
+                                className="absolute w-4 h-4 bg-white/10 rounded-full"
+                            />
+                        ))}
+                    </div>
+
+                    <div className="relative z-10 max-w-4xl mx-auto text-center px-4">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.3, duration: 0.6 }}
                         >
-                            APPLY NOW
-                        </motion.button>
+                            <Typography type="Header" size="3xl" className="text-transparent bg-clip-text bg-gradient-to-r from-white via-purple-200 to-pink-200 font-black mb-4 tracking-wide">
+                                Become a Brand Partner
+                            </Typography>
+                        </motion.div>
+
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.3, duration: 0.6 }}
+                            className="mb-4"
+                        >
+
+                            <motion.p
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.8, duration: 0.8 }}
+                                className="text-xl text-gray-300 font-light text-center"
+                            >
+                                Join our curated selection of premium streetwear brands and reach a global audience
+                            </motion.p>
+                        </motion.div>
+
+                        <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.5, duration: 0.6 }}
+                        >
+                            <motion.button
+                                whileHover={{
+                                    scale: 1.08,
+                                    boxShadow: "0 20px 40px rgba(255, 0, 20, 0.4)",
+                                    y: -5
+                                }}
+                                whileTap={{ scale: 0.95 }}
+                                animate={{
+                                    boxShadow: [
+                                        "0 0 0 rgba(168, 85, 247, 0)",
+                                        "0 10px 20px rgba(255, 0, 0, 0.2)",
+                                        "0 20px 40px rgba(255, 0, 20, 0.4)",
+                                        "0 10px 20px rgba(255, 0, 40, 0.2)",
+                                        "0 0 0 rgba(168, 85, 247, 0)"
+                                    ]
+                                }}
+                                transition={{
+                                    duration: 1,
+                                    repeat: 0,
+                                    ease: "easeInOut"
+                                }}
+                                className="bg-red-700 text-white px-6 py-3 rounded-xl font-black"
+                            >
+                                APPLY NOW
+                            </motion.button>
+                        </motion.div>
                     </div>
                 </motion.section>
             </div>

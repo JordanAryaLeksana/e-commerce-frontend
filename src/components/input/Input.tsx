@@ -61,7 +61,7 @@ const Input = forwardRef<HTMLInputElement, InputTextProps>(function Input(
         <Component>
             <div className={`grid grid-cols-1 gap-2 ${className}`} style={style}>
                 <label htmlFor={id} className='block text-sm font-semibold text-white'>
-                    <Typography type="Header" size='2xl' className='text-sm font-bold text-zinc-900'>
+                    <Typography type="Header" size='2xl' className='text-sm font-bold text-red-600'>
                         {label}{' '}
                         {required && <span className='font-bold text-red-500'>*</span>}
                     </Typography>

@@ -8,6 +8,29 @@ import { fetchItems } from "@/store/slice/itemsSlice";
 import Image from "next/image";
 import Link from "next/link";
 import { HiOutlineHeart, HiHeart, HiShoppingCart, HiFire, HiClock, HiTag, HiFilter } from "react-icons/hi";
+import { FormProvider, useForm } from "react-hook-form";
+import Input from "@/components/input/Input";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+
+type FormValues = {
+    name: string;
+    email: string;
+};
+
+const validationSchema = z.object({
+    name: z
+        .string()
+        .min(3, "Name must be at least 3 characters long")
+        .max(100, "Name must be less than 100 characters")
+        .nonempty("Name is required"),
+    email: z
+        .string()
+        .email("Invalid email address")
+        .max(100, "Email must be less than 100 characters")
+        .nonempty("Email is required"),
+});
+
 
 export default function OnSale() {
     const dispatch = useDispatch<AppDispatch>();
@@ -20,7 +43,31 @@ export default function OnSale() {
         dispatch(fetchItems());
     }, [dispatch]);
 
-    // Mock sale data - dalam implementasi nyata akan dari API
+
+    const methods = useForm<FormValues>({
+        resolver: zodResolver(validationSchema),
+        defaultValues: {
+            name: "",
+            email: "",
+        },
+    });
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+
+    } = methods
+    const submit = async () => {
+        const data = methods.getValues();
+        try {
+            console.log("Form submitted with data:", data);
+            methods.reset();
+        } catch (error) {
+            console.error("Subscription error:", error);
+        }
+    }
+
+
     const saleProducts = products?.map((product, index) => ({
         ...product,
         originalPrice: parseInt(String(product.price) || "100") + Math.floor(Math.random() * 100) + 50,
@@ -66,33 +113,74 @@ export default function OnSale() {
                             className="space-y-6"
                         >
                             <div className="flex items-center justify-center gap-3 mb-4">
-                                <HiFire className="text-4xl text-yellow-400" />
+                                <motion.div
+                                    animate={{
+                                        scale: [1, 1.2, 1],
+                                        rotate: [0, -5, 5, 0],
+                                        color: ['#FBBF24', '#EF4444', '#F97316', '#FBBF24']
+                                    }}
+                                    transition={{
+                                        duration: 2,
+                                        repeat: Infinity,
+                                        ease: "easeInOut"
+                                    }}
+                                >
+                                    <HiFire className="text-4xl" />
+                                </motion.div>
+
                                 <Typography size="4xl" type="Header" className="font-black tracking-tighter">
                                     ON SALE
                                 </Typography>
-                                <HiFire className="text-4xl text-yellow-400" />
+
+                                <motion.div
+                                    animate={{
+                                        scale: [1, 1.2, 1],
+                                        rotate: [0, 5, -5, 0],
+                                        color: ['#FBBF24', '#EF4444', '#F97316', '#FBBF24']
+                                    }}
+                                    transition={{
+                                        duration: 2,
+                                        repeat: Infinity,
+                                        ease: "easeInOut",
+                                        delay: 0.5
+                                    }}
+                                >
+                                    <HiFire className="text-4xl" />
+                                </motion.div>
                             </div>
-
-                            <Typography size="2xl" type="Header" className="text-red-100">
+                            <motion.p
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.8, duration: 0.8 }}
+                                className="text-2xl text-gray-300 font-light text-center"
+                            >
                                 PRAMSTORE FLASH DEALS
-                            </Typography>
-
-                            <Typography size="lg" type="Paragraph" className="text-red-200 max-w-2xl mx-auto">
+                            </motion.p>
+                            <motion.p
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.8, duration: 0.8 }}
+                                className="text-lg text-gray-300 font-light text-center"
+                            >
                                 Limited time offers on premium streetwear. Dont miss out on these exclusive deals!
-                            </Typography>
+                            </motion.p>
 
                             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 max-w-md mx-auto">
-                                <Typography size="sm" type="Paragraph" className="text-red-200 mb-2">
+                                <motion.p className="text-red-200 font-light mb-2">
                                     Sale ends in:
-                                </Typography>
-                                <div className="flex justify-center gap-4">
+                                </motion.p>
+                                <motion.div className="flex justify-center  gap-4"
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 1, duration: 0.8 }}
+                                >
                                     {['12', '34', '56'].map((time, i) => (
-                                        <div key={i} className="bg-white text-red-600 rounded-lg px-3 py-2 font-black text-xl">
+                                        <div key={i} className="bg-white text-red-600 rounded-lg px-3 py-2 font-bold text-xl">
                                             {time}
                                         </div>
                                     ))}
-                                </div>
-                                <div className="flex justify-center gap-6 mt-2 text-red-200 text-sm">
+                                </motion.div>
+                                <div className="flex justify-center font-extralight gap-6 mt-2 text-red-200 text-sm">
                                     <span>HOURS</span>
                                     <span>MINS</span>
                                     <span>SECS</span>
@@ -102,7 +190,6 @@ export default function OnSale() {
                     </div>
                 </motion.section>
 
-                {/* Filter & Sort Section */}
                 <motion.section
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
@@ -114,8 +201,15 @@ export default function OnSale() {
                             {/* Filters */}
                             <div className="flex items-center gap-4">
                                 <HiFilter className="text-red-500 text-xl" />
-                                <Typography size="lg" type="Header" className="text-white">Filter:</Typography>
-                                <div className="flex gap-2">
+                                <motion.p
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.8, duration: 0.8 }}
+                                    className="text-lg text-gray-300 mb-2 font-light text-center max-w-4xl"
+                                >
+                                    Filter:
+                                </motion.p>
+                                <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2  gap-2">
                                     {['all', 'clothing', 'accessories', 'footwear'].map((category) => (
                                         <motion.button
                                             key={category}
@@ -127,23 +221,28 @@ export default function OnSale() {
                                                 : 'bg-zinc-700 text-zinc-300 hover:bg-zinc-600'
                                                 }`}
                                         >
-                                            {category.charAt(0).toUpperCase() + category.slice(1)}
+                                            <motion.p
+                                                className="font-light"
+                                                initial={{ opacity: 0, y: 20 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ delay: 0.8, duration: 0.8 }}
+                                            >
+                                                {category.charAt(0).toUpperCase() + category.slice(1)}
+                                            </motion.p>
                                         </motion.button>
                                     ))}
                                 </div>
                             </div>
-
-                            {/* Sort */}
                             <div className="flex items-center gap-4">
-                                <Typography size="lg" type="Header" className="text-white">Sort by:</Typography>
+                                <motion.p className="text-white text-lg font-light ">Sort by:</motion.p>
                                 <select
                                     value={sortBy}
                                     onChange={(e) => setSortBy(e.target.value)}
-                                    className="bg-zinc-700 text-white rounded-lg px-4 py-2 border border-zinc-600 focus:border-red-500 focus:outline-none"
+                                    className="bg-zinc-700 font-light text-white rounded-lg px-4 py-2 border border-zinc-600 focus:border-red-500 focus:outline-none"
                                 >
-                                    <option value="discount">Highest Discount</option>
-                                    <option value="price">Lowest Price</option>
-                                    <option value="time">Ending Soon</option>
+                                    <option value="discount font-light">Highest Discount</option>
+                                    <option value="price font-light">Lowest Price</option>
+                                    <option value="time font-light">Ending Soon</option>
                                 </select>
                             </div>
                         </div>
@@ -268,35 +367,68 @@ export default function OnSale() {
                 {/* Newsletter Section */}
 
                 <motion.section
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
+                    initial="hidden"
+                    whileInView="show"
                     viewport={{ once: true }}
-                    className="bg-gradient-to-t from-red-700  py-16"
+                   
+                    className="bg-gradient-to-t from-red-700 w-full"
                 >
-                    <div className="max-w-4xl mx-auto px-6 text-center">
-                        <Typography size="3xl" type="Header" className="font-black mb-4">
+                    <div className="max-w-xl mx-auto px-6 text-center">
+                        <motion.p
+                          
+                            className="font-bold text-3xl mb-4 text-white"
+                        >
                             DONT MISS OUT!
-                        </Typography>
-                        <Typography size="lg" type="Paragraph" className="text-red-100 mb-8">
+                        </motion.p>
+
+                        <motion.p
+                            
+                            className="text-red-100 font-light mb-8"
+                        >
                             Subscribe to get notified about flash sales and exclusive deals
-                        </Typography>
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
-                            <input
-                                type="email"
-                                placeholder="Enter your email"
-                                className="flex-1 px-4 py-3 rounded-lg text-black font-semibold focus:outline-none focus:ring-2 focus:ring-white"
-                            />
-                            <motion.button
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                className="bg-white text-red-600 px-8 py-3 rounded-lg font-black hover:bg-red-100 transition-colors"
+                        </motion.p>
+
+                        <FormProvider {...methods}>
+                            <motion.form
+                                
+                                onSubmit={handleSubmit(submit)}
+                                className="rounded-md bg-white font-light flex flex-col mx-auto items-center justify-center gap-3 p-3"
                             >
-                                SUBSCRIBE
-                            </motion.button>
-                        </div>
+                                <motion.div >
+                                    <Input
+                                        id="name"
+                                        type="text"
+                                        label="Enter your name"
+                                        placeholder=""
+                                        autoComplete="off"
+                                        {...register("name")}
+                                    />
+                                </motion.div>
+
+                                <motion.div >
+                                    <Input
+                                        id="email"
+                                        type="email"
+                                        label="Enter your email"
+                                        placeholder=""
+                                        autoComplete="off"
+                                        {...register("email")}
+                                    />
+                                </motion.div>
+
+                                <motion.button
+
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    className="bg-red-800 text-white px-8 py-3 rounded-lg font-black hover:bg-red-100 transition-colors"
+                                >
+                                    SUBSCRIBE
+                                </motion.button>
+                            </motion.form>
+                        </FormProvider>
                     </div>
                 </motion.section>
             </div>
-        </Layout>
+        </Layout >
     );
 }

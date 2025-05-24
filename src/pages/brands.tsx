@@ -1,21 +1,12 @@
 import Layout from "@/components/layout/layout";
 import Typography from "@/components/Typography/Typography";
 import { motion } from "framer-motion";
-import { useState } from "react";
+
 import Image from "next/image";
 import Link from "next/link";
-import { HiStar, HiFire, HiTrendingUp } from "react-icons/hi";
-import { BsLightningFill } from "react-icons/bs";
+
 
 export default function Brands() {
-    const [selectedCategory, setSelectedCategory] = useState("all");
-
-    const categories = [
-        { id: "all", label: "ALL BRANDS", icon: HiFire },
-        { id: "streetwear", label: "STREETWEAR", icon: BsLightningFill },
-        { id: "luxury", label: "LUXURY", icon: HiStar },
-        { id: "trending", label: "TRENDING", icon: HiTrendingUp }
-    ];
 
     const brands = [
         {
@@ -68,9 +59,7 @@ export default function Brands() {
         }
     ];
 
-    const filteredBrands = selectedCategory === "all" 
-        ? brands 
-        : brands.filter(brand => brand.category === selectedCategory);
+
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -88,14 +77,14 @@ export default function Brands() {
     };
 
     return (
-        <Layout withNavbar withFooter withHeader>
-            <div className="w-full min-h-screen bg-black mt-32 text-white">
+        <Layout withNavbar withFooter >
+            <div className="w-full min-h-screen bg-black mt-10 text-white">
                 {/* Hero Section */}
-                <motion.section 
+                <motion.section
                     initial={{ opacity: 0, y: -30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
-                    className="relative h-80 bg-gradient-to-r from-red-600 to-red-800 overflow-hidden"
+                    className="relative h-screen bg-gradient-to-r from-gray-900 via-gray-800 to-red-900"
                 >
                     <div className="absolute inset-0 bg-black/10" />
                     <div className="relative z-10 flex flex-col items-center justify-center h-full px-4">
@@ -105,66 +94,43 @@ export default function Brands() {
                             transition={{ delay: 0.2, duration: 0.5 }}
                             className="text-center"
                         >
-                            <Typography size="5xl" type="Header" className="font-black tracking-wider mb-3 text-white">
-                                BRANDS
+                            <Typography type="Header" size="6xl" className="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-red-400 font-bold tracking-wide">
+                                PRAMSTORE
                             </Typography>
-                            <Typography size="lg" type="Paragraph" className="font-bold text-white/90 tracking-wide">
-                                CURATED STREETWEAR • PREMIUM LABELS
-                            </Typography>
+                            <motion.p
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.8, duration: 0.8 }}
+                                className="text-2xl text-gray-300 mb-2 font-light text-center max-w-4xl"
+                            >
+                                Curated Streetwear Excellence
+                            </motion.p>
                         </motion.div>
                     </div>
 
                     {/* Simple animated element */}
                     <motion.div
-                        animate={{ 
+                        animate={{
                             rotate: [0, 360]
                         }}
-                        transition={{ 
-                            duration: 20, 
-                            repeat: Infinity, 
-                            ease: "linear" 
+                        transition={{
+                            duration: 20,
+                            repeat: Infinity,
+                            ease: "linear"
                         }}
                         className="absolute top-10 right-10 w-20 h-20 border-2 border-white/20 rotate-45"
                     />
                 </motion.section>
 
-                {/* Filter Section */}
-                <motion.section 
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.3, duration: 0.5 }}
-                    className="sticky top-32 z-20 bg-black/95 backdrop-blur-sm border-y border-red-600/30 py-4"
-                >
-                    <div className="max-w-6xl mx-auto px-4">
-                        <div className="flex flex-wrap justify-center gap-3">
-                            {categories.map((category) => (
-                                <motion.button
-                                    key={category.id}
-                                    onClick={() => setSelectedCategory(category.id)}
-                                    whileHover={{ scale: 1.03 }}
-                                    whileTap={{ scale: 0.97 }}
-                                    className={`flex items-center gap-2 px-5 py-2 font-black text-sm tracking-wider transition-all
-                                        ${selectedCategory === category.id 
-                                            ? "bg-red-600 text-white border border-red-600" 
-                                            : "bg-transparent text-white border border-white hover:bg-white hover:text-black"
-                                        }`}
-                                >
-                                    <category.icon className="text-base" />
-                                    {category.label}
-                                </motion.button>
-                            ))}
-                        </div>
-                    </div>
-                </motion.section>
 
                 {/* Brands Grid */}
-                <motion.section 
+                <motion.section
                     variants={containerVariants}
                     initial="hidden"
                     animate="visible"
                     className="max-w-6xl mx-auto px-4 py-10"
                 >
-                    <motion.div 
+                    <motion.div
                         variants={itemVariants}
                         className="text-center mb-10"
                     >
@@ -174,11 +140,11 @@ export default function Brands() {
                         <div className="w-16 h-1 bg-red-600 mx-auto" />
                     </motion.div>
 
-                    <motion.div 
+                    <motion.div
                         variants={containerVariants}
                         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
                     >
-                        {filteredBrands.map((brand) => (
+                        {brands.map((brand) => (
                             <motion.div
                                 key={brand.id}
                                 variants={itemVariants}
@@ -202,7 +168,7 @@ export default function Brands() {
                                             height={200}
                                             className="w-full h-full object-contain p-8 group-hover:scale-105 transition-transform duration-300"
                                         />
-                                        
+
                                         {/* Overlay */}
                                         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                                             <div className="bg-white text-black px-4 py-2 text-sm font-black tracking-wide">
@@ -233,7 +199,7 @@ export default function Brands() {
                                             <div className="text-xs text-red-600 font-bold tracking-wider uppercase">
                                                 {brand.category}
                                             </div>
-                                            
+
                                             <motion.div
                                                 whileHover={{ scale: 1.05 }}
                                                 className="bg-red-600 text-white px-3 py-1 text-xs font-black tracking-wide hover:bg-red-700 transition-colors"
@@ -249,7 +215,7 @@ export default function Brands() {
                 </motion.section>
 
                 {/* CTA Section */}
-                <motion.section 
+                <motion.section
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
@@ -262,7 +228,7 @@ export default function Brands() {
                         <Typography size="base" type="Paragraph" className="text-zinc-400 mb-6">
                             Join our curated selection of premium streetwear brands
                         </Typography>
-                        
+
                         <motion.button
                             whileHover={{ scale: 1.03 }}
                             whileTap={{ scale: 0.97 }}

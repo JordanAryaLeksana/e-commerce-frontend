@@ -7,7 +7,7 @@ import { RootState, AppDispatch } from "@/store/store";
 import { fetchItems } from "@/store/slice/itemsSlice";
 import Image from "next/image";
 import Link from "next/link";
-import { HiOutlineHeart, HiHeart, HiCurrencyDollar, HiShoppingCart, HiFire, HiClock, HiTag, HiFilter } from "react-icons/hi";
+import { HiOutlineHeart, HiHeart, HiShoppingCart, HiFire, HiClock, HiTag, HiFilter } from "react-icons/hi";
 
 export default function OnSale() {
     const dispatch = useDispatch<AppDispatch>();
@@ -17,12 +17,7 @@ export default function OnSale() {
     const [favorites, setFavorites] = useState<number[]>([]);
 
     useEffect(() => {
-        const token = localStorage.getItem("access_token");
-        if (!token || token === "null" || token === "undefined") {
-            window.location.href = "/login";
-        } else {
-            dispatch(fetchItems());
-        }
+        dispatch(fetchItems());
     }, [dispatch]);
 
     // Mock sale data - dalam implementasi nyata akan dari API
@@ -34,8 +29,8 @@ export default function OnSale() {
         category: ['clothing', 'accessories', 'footwear'][index % 3]
     })) || [];
 
-    const filteredProducts = filter === 'all' 
-        ? saleProducts 
+    const filteredProducts = filter === 'all'
+        ? saleProducts
         : saleProducts.filter(product => product.category === filter);
 
     const sortedProducts = [...filteredProducts].sort((a, b) => {
@@ -46,21 +41,21 @@ export default function OnSale() {
     });
 
     const toggleFavorite = (productId: number) => {
-        setFavorites(prev => 
-            prev.includes(productId) 
+        setFavorites(prev =>
+            prev.includes(productId)
                 ? prev.filter(id => id !== productId)
                 : [...prev, productId]
         );
     };
 
     return (
-        <Layout withNavbar withFooter withHeader>
-            <div className="w-full min-h-screen bg-zinc-900 mt-32 text-white">
+        <Layout withNavbar withFooter>
+            <div className="w-full min-h-screen bg-zinc-900 mt-10 text-white">
                 {/* Hero Section */}
-                <motion.section 
+                <motion.section
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="relative bg-gradient-to-r from-red-600 via-red-700 to-red-800 py-20"
+                    className="relative bg-gradient-to-r  from-gray-900 via-gray-800 to-red-900 py-20"
                 >
                     <div className="absolute inset-0 bg-black/20" />
                     <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
@@ -77,15 +72,15 @@ export default function OnSale() {
                                 </Typography>
                                 <HiFire className="text-4xl text-yellow-400" />
                             </div>
-                            
+
                             <Typography size="2xl" type="Header" className="text-red-100">
                                 PRAMSTORE FLASH DEALS
                             </Typography>
-                            
+
                             <Typography size="lg" type="Paragraph" className="text-red-200 max-w-2xl mx-auto">
                                 Limited time offers on premium streetwear. Dont miss out on these exclusive deals!
                             </Typography>
-                            
+
                             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 max-w-md mx-auto">
                                 <Typography size="sm" type="Paragraph" className="text-red-200 mb-2">
                                     Sale ends in:
@@ -108,7 +103,7 @@ export default function OnSale() {
                 </motion.section>
 
                 {/* Filter & Sort Section */}
-                <motion.section 
+                <motion.section
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.2 }}
@@ -127,11 +122,10 @@ export default function OnSale() {
                                             whileHover={{ scale: 1.05 }}
                                             whileTap={{ scale: 0.95 }}
                                             onClick={() => setFilter(category)}
-                                            className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all ${
-                                                filter === category
-                                                    ? 'bg-red-600 text-white'
-                                                    : 'bg-zinc-700 text-zinc-300 hover:bg-zinc-600'
-                                            }`}
+                                            className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all ${filter === category
+                                                ? 'bg-red-600 text-white'
+                                                : 'bg-zinc-700 text-zinc-300 hover:bg-zinc-600'
+                                                }`}
                                         >
                                             {category.charAt(0).toUpperCase() + category.slice(1)}
                                         </motion.button>
@@ -271,13 +265,13 @@ export default function OnSale() {
                         </motion.div>
                     )}
                 </section>
-
                 {/* Newsletter Section */}
-                <motion.section 
+
+                <motion.section
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
-                    className="bg-gradient-to-r from-red-600 to-red-800 py-16"
+                    className="bg-gradient-to-t from-red-700  py-16"
                 >
                     <div className="max-w-4xl mx-auto px-6 text-center">
                         <Typography size="3xl" type="Header" className="font-black mb-4">

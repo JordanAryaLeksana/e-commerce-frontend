@@ -218,7 +218,7 @@ export default function Home() {
                   transition={{ duration: 0.2 }}
                 >
                   <Button
-                    onClick={() => router.push("/drops")}
+                    onClick={() => router.push("/new-arrival")}
                     className="bg-transparent border border-gray-600 hover:border-red-600 hover:bg-red-900/20 text-gray-300 hover:text-white font-medium text-lg px-10 py-4 rounded-sm transition-all duration-500"
                     type="button"
                     color="Light"

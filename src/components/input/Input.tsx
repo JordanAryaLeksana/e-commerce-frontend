@@ -56,7 +56,6 @@ const Input = forwardRef<HTMLInputElement, InputTextProps>(function Input(
 
     const error = get(errors, name);
     const Component = as;
-
     return (
         <Component>
             <div className={`grid grid-cols-1 gap-2 ${className}`} style={style}>

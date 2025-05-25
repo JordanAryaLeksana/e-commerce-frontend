@@ -3,12 +3,14 @@ import topupReducer from './slice/topupSlice';
 import itemsReducer from './slice/itemsSlice';
 import booleanReducer from './slice/booleanSlice';
 import detailSlice from './slice/itemsDetail';
+import colaboratorSlice from './slice/collabsSlice';
 export const store = configureStore({
     reducer:{
         topup : topupReducer,
         items: itemsReducer,
         boolean: booleanReducer,
-        detail: detailSlice
+        detail: detailSlice,
+        colaborators: colaboratorSlice
     }
 })
 

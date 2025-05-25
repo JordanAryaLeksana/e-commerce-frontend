@@ -45,7 +45,7 @@ export default function Login() {
     try {
       const response = await axiosClient.post("/users/login", data);
       console.log("Login response:", response.data);
-
+      
       const { token, name, email } = response.data.data;
 
       // Cek dulu apakah token ada

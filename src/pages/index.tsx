@@ -1,18 +1,14 @@
 "use client"
 import { useRouter } from "next/router";
-
 import Layout from "@/components/layout/layout";
 import Typography from "@/components/Typography/Typography";
 import { HiArrowCircleDown, HiStar, HiCurrencyDollar, HiOutlineHeart, HiFire, HiLightningBolt } from "react-icons/hi";
 import Button from "@/components/buttons/Buttons";
-
 import Threads from "@/components/animated/background";
 import Link from "next/link";
 import { useRef } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import SplitText from "@/components/animated/splitText";
-
 export default function Home() {
   const ref = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
@@ -71,7 +67,7 @@ export default function Home() {
       id: 5,
       name: "Supreme Bandana Tee",
       price: "250",
-      image: "/placeholder.png",
+      image: "",
       sales: "1.2K",
       rating: 4.9
     },
@@ -79,7 +75,7 @@ export default function Home() {
       id: 6,
       name: "Kith Madison Hoodie",
       price: "220",
-      image: "/placeholder.png",
+      image: "",
       sales: "890",
       rating: 4.8
     },
@@ -87,13 +83,18 @@ export default function Home() {
       id: 7,
       name: "Stone Island Compass Logo",
       price: "380",
-      image: "/placeholder.png",
+      image: "",
       sales: "654",
       rating: 4.7
     }
   ];
+  const targetRef = useRef<HTMLDivElement>(null);
 
-  // Smooth, elegant animations
+  const handleScroll = () => {
+    targetRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (!targetRef.current) return console.error("Target reference is not set.");
+  };
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -107,8 +108,8 @@ export default function Home() {
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
       transition: {
         duration: 0.8,
@@ -128,10 +129,10 @@ export default function Home() {
 
   return (
     <Layout>
-      {/* Hero Section - Elegant Black to Dark Red */}
+
       <section className="h-full pt-20 w-full relative min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-red-900">
         <div className="min-h-screen relative overflow-hidden">
-          {/* Subtle Pattern Background */}
+
           <div className="absolute inset-0 opacity-5">
             <div className="w-full h-full bg-repeat" style={{
               backgroundImage: `url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='40' cy='40' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
@@ -150,7 +151,7 @@ export default function Home() {
           <section className="h-full w-full relative z-10">
             <div className="flex flex-col items-center justify-center h-full w-full mt-10 px-4">
               {/* Elegant Brand Header */}
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1.2, ease: "easeOut" }}
@@ -164,7 +165,7 @@ export default function Home() {
                     PRAMSTORE
                   </Typography>
                 </motion.div>
-                <motion.div 
+                <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: "100%" }}
                   transition={{ delay: 1, duration: 1.5, ease: "easeOut" }}
@@ -172,7 +173,7 @@ export default function Home() {
                 />
               </motion.div>
 
-              <motion.p 
+              <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.8, duration: 0.8 }}
@@ -181,7 +182,7 @@ export default function Home() {
                 Curated Streetwear Excellence
               </motion.p>
 
-              <motion.p 
+              <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1, duration: 0.8 }}
@@ -210,7 +211,7 @@ export default function Home() {
                     Explore Collection
                   </Button>
                 </motion.div>
-                
+
                 <motion.div
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.98 }}
@@ -227,14 +228,14 @@ export default function Home() {
                 </motion.div>
               </motion.div>
 
-          
-              <motion.div 
+
+              <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.8, duration: 0.8 }}
                 className="flex flex-wrap justify-center gap-12 mt-16 text-gray-300"
               >
-                <motion.div 
+                <motion.div
                   whileHover={{ scale: 1.1 }}
                   transition={{ duration: 0.3 }}
                   className="text-center"
@@ -242,7 +243,7 @@ export default function Home() {
                   <div className="text-3xl font-light text-white mb-2">50K+</div>
                   <div className="text-sm text-gray-400 tracking-wide">Items Sold</div>
                 </motion.div>
-                <motion.div 
+                <motion.div
                   whileHover={{ scale: 1.1 }}
                   transition={{ duration: 0.3 }}
                   className="text-center"
@@ -250,7 +251,7 @@ export default function Home() {
                   <div className="text-3xl font-light text-white mb-2">100%</div>
                   <div className="text-sm text-gray-400 tracking-wide">Authentic</div>
                 </motion.div>
-                <motion.div 
+                <motion.div
                   whileHover={{ scale: 1.1 }}
                   transition={{ duration: 0.3 }}
                   className="text-center"
@@ -262,11 +263,11 @@ export default function Home() {
             </div>
           </section>
 
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 2.2, duration: 0.8 }}
-            className="absolute bottom-[10%] left-[50%] -translate-x-1/2 flex flex-col justify-center items-center gap-3"
+            className="absolute bottom-[1%] z-10 lg:bottom-[10%] left-[50%] -translate-x-1/2 flex flex-col justify-center items-center gap-3"
           >
             <p className="text-sm text-gray-400 font-light tracking-widest">
               DISCOVER MORE
@@ -274,14 +275,18 @@ export default function Home() {
             <motion.div
               animate={{ y: [0, 8, 0] }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              onClick={handleScroll}
+              className="cursor-pointer"
+
             >
               <HiArrowCircleDown className="text-gray-400 text-2xl" />
             </motion.div>
+
           </motion.div>
         </div>
 
         {/* Elegant Brand Marquee */}
-        <motion.section 
+        <motion.section
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 2.5, duration: 1 }}
@@ -290,12 +295,12 @@ export default function Home() {
           <div className="relative">
             <div className="absolute left-0 top-0 w-32 h-full bg-gradient-to-r from-black to-transparent z-10"></div>
             <div className="absolute right-0 top-0 w-32 h-full bg-gradient-to-l from-black to-transparent z-10"></div>
-            
+
             <div className="flex w-max animate-marquee">
               {[...demoItems, ...demoItems, ...demoItems].map(({ link, text }, index) => (
                 <div key={index} className="flex-shrink-0 px-12">
                   <Link href={link} className="block">
-                    <motion.div 
+                    <motion.div
                       whileHover={{ scale: 1.05, y: -2 }}
                       transition={{ duration: 0.3 }}
                       className="text-gray-400 hover:text-white font-light text-lg tracking-wider transition-colors duration-500"
@@ -318,8 +323,10 @@ export default function Home() {
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 1.2, ease: "easeOut" }}
       >
-        <div className="max-w-7xl mx-auto px-4">
-          <motion.div 
+        <div className="max-w-7xl mx-auto px-4"
+          ref={targetRef}
+        >
+          <motion.div
             className="text-center mb-20"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -329,7 +336,7 @@ export default function Home() {
             <h2 className="text-4xl text-transparent bg-clip-text bg-gradient-to-r from-white to-red-400 font-light tracking-wide mb-4">
               Featured Collection
             </h2>
-            <motion.div 
+            <motion.div
               initial={{ width: 0 }}
               whileInView={{ width: "200px" }}
               viewport={{ once: true }}
@@ -341,7 +348,7 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
@@ -373,7 +380,7 @@ export default function Home() {
                   </div>
 
                   {/* Elegant Wishlist Button */}
-                  <motion.button 
+                  <motion.button
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
                     transition={{ duration: 0.2 }}
@@ -391,7 +398,7 @@ export default function Home() {
                       height={400}
                       className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-700"
                     />
-                    
+
                     {/* Elegant Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end justify-center pb-6">
                       <motion.div
@@ -410,7 +417,7 @@ export default function Home() {
                     <p className="text-xs text-red-400 font-light tracking-wider mb-2">
                       {product.category}
                     </p>
-                    
+
                     <h3 className="text-lg font-light text-white mb-4 line-clamp-2 hover:text-gray-300 transition-colors duration-300">
                       {product.name}
                     </h3>
@@ -421,7 +428,7 @@ export default function Home() {
                         <HiCurrencyDollar className="mr-1 text-gray-400" />
                         {product.price}
                       </div>
-                      
+
                       <motion.div
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
@@ -438,7 +445,7 @@ export default function Home() {
           </motion.div>
 
           {/* Elegant View All Button */}
-          <motion.div 
+          <motion.div
             className="text-center mt-20"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -467,7 +474,7 @@ export default function Home() {
         transition={{ duration: 1.2, ease: "easeOut" }}
       >
         <div className="max-w-7xl mx-auto px-4">
-          <motion.div 
+          <motion.div
             className="text-center mb-20"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -477,7 +484,7 @@ export default function Home() {
             <h2 className="text-4xl text-transparent bg-clip-text bg-gradient-to-r from-white to-red-400 font-light tracking-wide mb-4">
               Best Sellers
             </h2>
-            <motion.div 
+            <motion.div
               initial={{ width: 0 }}
               whileInView={{ width: "150px" }}
               viewport={{ once: true }}
@@ -489,7 +496,7 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
@@ -524,7 +531,7 @@ export default function Home() {
                       height={400}
                       className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-700"
                     />
-                    
+
                     {/* Elegant Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end justify-center pb-6">
                       <motion.div
@@ -548,9 +555,9 @@ export default function Home() {
                     <div className="flex items-center gap-2 mb-4">
                       <div className="flex items-center gap-1">
                         {[...Array(5)].map((_, i) => (
-                          <HiStar 
-                            key={i} 
-                            className={`text-sm ${i < Math.floor(product.rating) ? 'text-yellow-500' : 'text-gray-600'}`} 
+                          <HiStar
+                            key={i}
+                            className={`text-sm ${i < Math.floor(product.rating) ? 'text-yellow-500' : 'text-gray-600'}`}
                           />
                         ))}
                       </div>
@@ -565,7 +572,7 @@ export default function Home() {
                         <HiCurrencyDollar className="mr-1 text-gray-400" />
                         {product.price}
                       </div>
-                      
+
                       <motion.div
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
@@ -584,7 +591,7 @@ export default function Home() {
       </motion.section>
 
       {/* Newsletter Section - Minimalist Elegance */}
-      <motion.section 
+      <motion.section
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
@@ -608,7 +615,7 @@ export default function Home() {
             <Typography size="3xl" type="Header" className="font-light text-transparent bg-clip-text bg-gradient-to-r from-white to-red-400 tracking-wide mb-6">
               Stay Connected
             </Typography>
-            <motion.div 
+            <motion.div
               initial={{ width: 0 }}
               whileInView={{ width: "100px" }}
               viewport={{ once: true }}
@@ -620,8 +627,8 @@ export default function Home() {
           <Typography size="lg" type="Paragraph" className="text-gray-400 mb-12 font-light">
             Be the first to know about new arrivals and exclusive releases
           </Typography>
-          
-          <motion.div 
+
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}

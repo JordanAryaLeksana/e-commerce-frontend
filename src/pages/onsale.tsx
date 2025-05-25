@@ -12,10 +12,13 @@ import { FormProvider, useForm } from "react-hook-form";
 import Input from "@/components/input/Input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-
+import { addCollaborator } from "@/store/slice/collabsSlice";
+import DismissableToast from "@/components/animated/ToastContainer";
+import toast from "react-hot-toast";
 type FormValues = {
     name: string;
     email: string;
+    role: "ecommerce_expert" | "supplier" | "influencer" | "developer";
 };
 
 const validationSchema = z.object({
@@ -29,6 +32,9 @@ const validationSchema = z.object({
         .email("Invalid email address")
         .max(100, "Email must be less than 100 characters")
         .nonempty("Email is required"),
+    role: z.enum(["ecommerce_expert", "supplier", "influencer", "developer"], {
+        required_error: "Role is required"
+    }),
 });
 
 
@@ -49,6 +55,7 @@ export default function OnSale() {
         defaultValues: {
             name: "",
             email: "",
+            role: "ecommerce_expert",
         },
     });
     const {
@@ -57,13 +64,15 @@ export default function OnSale() {
         formState: { errors },
 
     } = methods
-    const submit = async () => {
-        const data = methods.getValues();
+    const submit = async (data: FormValues) => {
         try {
-            console.log("Form submitted with data:", data);
+            await dispatch(addCollaborator(data)).unwrap();            
+            // console.log("Form submitted with data:", data);
+            toast.success("We've sent you an email! Thank you for joining our community.");
             methods.reset();
         } catch (error) {
-            console.error("Subscription error:", error);
+            // console.error("Subscription error:", error);
+            toast.error("Failed to subscribe. Please try again later.");
         }
     }
 
@@ -390,7 +399,6 @@ export default function OnSale() {
 
                         <FormProvider {...methods}>
                             <motion.form
-                                
                                 onSubmit={handleSubmit(submit)}
                                 className="rounded-md bg-white font-light flex flex-col mx-auto items-center justify-center gap-3 p-3"
                             >
@@ -408,16 +416,28 @@ export default function OnSale() {
                                 <motion.div >
                                     <Input
                                         id="email"
-                                        type="email"
+                                        type="email"       
                                         label="Enter your email"
                                         placeholder=""
                                         autoComplete="off"
                                         {...register("email")}
                                     />
                                 </motion.div>
+                                <motion.div>
+                                    <select
+                                        {...register("role")}
+                                        defaultValue="ecommerce_expert"
+                                        ref={methods.register("role").ref}
 
+                                        className="w-full bg-white text-gray-700 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-500"
+                                    >
+                                        <option value="ecommerce_expert">E-commerce Expert</option>
+                                        <option value="supplier">Supplier</option>
+                                        <option value="influencer">Influencer</option>
+                                        <option value="developer">Developer</option>
+                                    </select>
+                                </motion.div>
                                 <motion.button
-
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
                                     className="bg-red-800 text-white px-8 py-3 rounded-lg font-black hover:bg-red-100 transition-colors"

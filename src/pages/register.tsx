@@ -36,7 +36,7 @@ const validationSchema: ZodType<FormValues> = z.object({
 export default function Register() {
     const router = useRouter()
     const [showPassword, setShowPassword] = useState(false)
-    
+
     const methods = useForm<FormValues>({
         resolver: zodResolver(validationSchema),
         defaultValues: {
@@ -106,7 +106,7 @@ export default function Register() {
                         }}
                         className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-r from-teal-500/10 to-cyan-500/10 rounded-full blur-3xl"
                     />
-                    
+
                     {/* Grid pattern */}
                     <div className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-[size:50px_50px]" />
                 </div>
@@ -122,7 +122,7 @@ export default function Register() {
                     <div className="relative">
                         {/* Glow effect */}
                         <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500/20 via-gray-500/10 to-teal-500/20 rounded-2xl blur-lg animate-pulse" />
-                        
+
                         {/* Main card */}
                         <div className="relative bg-gray-800/40 backdrop-blur-xl border border-gray-700/50 rounded-2xl shadow-2xl shadow-cyan-500/5 p-8">
                             <FormProvider {...methods}>
@@ -248,11 +248,11 @@ export default function Register() {
                                         >
                                             {/* Button glow effect */}
                                             <div className="absolute -inset-1 bg-gradient-to-r from-red-600 via-red-700 to-red-600 rounded-xl blur-sm opacity-75 group-hover:opacity-100 transition-opacity duration-300" />
-                                            
+
                                             <Button
                                                 type="submit"
                                                 color="Light"
-                                                onClick={() => {}}
+                                                onClick={() => { }}
                                                 className="relative w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-300 border border-red-500/30 shadow-lg shadow-red-500/20"
                                             >
                                                 <span className="flex items-center justify-center gap-2">
@@ -269,8 +269,10 @@ export default function Register() {
                                                     >
                                                         →
                                                     </motion.div>
+
                                                 </span>
                                             </Button>
+
                                         </motion.div>
                                     </motion.div>
 
@@ -288,8 +290,8 @@ export default function Register() {
                                             </Typography>
                                             <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-600/30 to-transparent" />
                                         </div>
-                                        
-                                        <div className="flex justify-center gap-6 text-xs">
+
+                                        <div className="flex justify-center items-center text-nowrap gap-3 text-xs">
                                             <motion.a
                                                 href="/login"
                                                 whileHover={{ scale: 1.05, color: "#06b6d4" }}
@@ -304,6 +306,14 @@ export default function Register() {
                                                 className="text-gray-400 hover:text-cyan-400 transition-colors duration-200 font-light"
                                             >
                                                 Terms & Privacy
+                                            </motion.a>
+                                            <span className="text-gray-600">•</span>
+                                            <motion.a
+                                                href="/"
+                                                whileHover={{ scale: 1.05, color: "#06b6d4" }}
+                                                className="text-gray-400 hover:text-cyan-400 transition-colors duration-200 font-light"
+                                            >
+                                                Back to Home
                                             </motion.a>
                                         </div>
                                     </motion.div>

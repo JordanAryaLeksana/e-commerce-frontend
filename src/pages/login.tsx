@@ -48,25 +48,19 @@ export default function Login() {
   const onSubmit = async (data: FormValues) => {
     try {
       const response = await axiosClient.post("/users/login", data);
-      console.log("Login response:", response.data);
-      
+      // console.log("Login response:", response.data);
       const { token, name, email } = response.data.data;
-
-      // Cek dulu apakah token ada
       if (!token?.accessToken || !token?.refreshToken) {
         toast.error("Token tidak ditemukan dalam response");
         return;
       }
-
       localStorage.setItem("access_token", token.accessToken);
       localStorage.setItem("refresh_token", token.refreshToken);
-      localStorage.setItem("user", JSON.stringify({ name, email }));
-
       toast.success("Login successful");
       router.push("/catalog");
     } catch (error: any) {
       toast.error(error.response?.data?.errors || "Login failed");
-      console.error("Login error:", error);
+      // console.error("Login error:", error);
     }
   };
 
@@ -74,7 +68,7 @@ export default function Login() {
     <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-slate-900 to-zinc-900 relative overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0">
-    
+
         <motion.div
           animate={{
             x: [0, 100, -50, 0],
@@ -104,7 +98,7 @@ export default function Login() {
           }}
           className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-r from-teal-500/10 to-cyan-500/10 rounded-full blur-3xl"
         />
-        
+
         {/* Grid pattern */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(6,182,212,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-[size:50px_50px]" />
       </div>
@@ -120,7 +114,7 @@ export default function Login() {
         <div className="relative">
           {/* Glow effect */}
           <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500/20 via-gray-500/10 to-teal-500/20 rounded-2xl blur-lg animate-pulse" />
-          
+
           {/* Main card */}
           <div className="relative bg-gray-800/40 backdrop-blur-xl border border-gray-700/50 rounded-2xl shadow-2xl shadow-cyan-500/5 p-8">
             <FormProvider {...handleForm}>
@@ -186,41 +180,41 @@ export default function Login() {
                   className="space-y-5"
                 >
                   {/* Email Field */}
-                
-                      <Input
-                        id="email"
-                        type="email"
-                        label="Email Address"
-                        placeholder="Enter your email"
-                        required
-                        autoComplete="off"
-                        {...register("email")}
-                
-                      />
-                  
-                 
-                      <div className="absolute right-3 top-1/2 transform -translate-y-1/2 z-10">
-                        <motion.button
-                          type="button"
-                          whileHover={{ scale: 1.1 }}
-                          whileTap={{ scale: 0.95 }}
-                          onClick={() => setShowPassword(!showPassword)}
-                          className="text-gray-400 hover:text-cyan-400 transition-colors duration-200"
-                        >
-                          {showPassword ? <HiEyeOff className="text-lg" /> : <HiEye className="text-lg" />}
-                        </motion.button>
-                      </div>
-                      <Input
-                        id="password"
-                        type={showPassword ? "text" : "password"}
-                        label="Password"
-                        placeholder="Enter your password"
-                        required
-                        autoComplete="off"
-                        {...register("password")}
-                       
-                      />
-                 
+
+                  <Input
+                    id="email"
+                    type="email"
+                    label="Email Address"
+                    placeholder="Enter your email"
+                    required
+                    autoComplete="off"
+                    {...register("email")}
+
+                  />
+
+
+                  <div className="absolute right-3 top-1/2 transform -translate-y-1/2 z-10">
+                    <motion.button
+                      type="button"
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="text-gray-400 hover:text-cyan-400 transition-colors duration-200"
+                    >
+                      {showPassword ? <HiEyeOff className="text-lg" /> : <HiEye className="text-lg" />}
+                    </motion.button>
+                  </div>
+                  <Input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    label="Password"
+                    placeholder="Enter your password"
+                    required
+                    autoComplete="off"
+                    {...register("password")}
+
+                  />
+
                 </motion.div>
 
                 {/* Login Button */}
@@ -237,11 +231,11 @@ export default function Login() {
                   >
                     {/* Button glow effect */}
                     <div className="absolute -inset-1 bg-gradient-to-r from-red-600 via-red-700 to-red-600 rounded-xl blur-sm opacity-75 group-hover:opacity-100 transition-opacity duration-300" />
-                    
+
                     <Button
                       type="submit"
                       color="Light"
-                      onClick={() => {}}
+                      onClick={() => { }}
                       className="relative w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-300 border border-red-500/30 shadow-lg shadow-red-500/20"
                     >
                       <span className="flex items-center justify-center gap-2">
@@ -277,7 +271,7 @@ export default function Login() {
                     </Typography>
                     <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-600/30 to-transparent" />
                   </div>
-                  
+
                   <div className="flex justify-center gap-6 text-xs">
                     <motion.a
                       href="/forgot-password"
@@ -285,6 +279,14 @@ export default function Login() {
                       className="text-gray-400 hover:text-cyan-400 transition-colors duration-200 font-light"
                     >
                       Forgot Password?
+                    </motion.a>
+                    <span className="text-gray-600">•</span>
+                    <motion.a
+                      href="/"
+                      whileHover={{ scale: 1.05, color: "#06b6d4" }}
+                      className="text-gray-400 hover:text-cyan-400 transition-colors duration-200 font-light"
+                    >
+                      Back to Home
                     </motion.a>
                     <span className="text-gray-600">•</span>
                     <motion.a

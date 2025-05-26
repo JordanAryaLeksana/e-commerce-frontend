@@ -196,7 +196,7 @@ export default function NewArrivals() {
                                 whileHover={{ scale: 1.05, y: -2 }}
                                 whileTap={{ scale: 0.98 }}
                                 transition={{ duration: 0.2 }}
-                                className={`flex items-center gap-2 px-6 py-3 font-light text-sm tracking-wider transition-all duration-500 rounded-sm
+                                className={`flex md:text-nowrap text-wrap items-center gap-2 px-6 py-3 font-light text-sm tracking-wider transition-all duration-500 rounded-sm
                                     ${selectedFilter === filter.id
                                         ? "bg-gradient-to-r from-red-700 to-red-800 text-white border border-red-600/30"
                                         : "bg-transparent text-gray-300 border border-gray-600 hover:border-red-600 hover:bg-red-900/20 hover:text-white"

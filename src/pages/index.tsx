@@ -14,13 +14,13 @@ export default function Home() {
   const router = useRouter();
 
   const demoItems = [
-    { link: '/', text: 'Supreme', image: '' },
-    { link: '/', text: 'Off-White', image: '' },
-    { link: '/', text: 'Bape', image: '' },
-    { link: '/', text: 'Palace', image: '' },
-    { link: '/', text: 'Kith', image: '' },
-    { link: '/', text: 'Stone Island', image: '' },
-    { link: '/', text: 'Fear of God', image: '' }
+    { link: '/', text: 'Supreme', image: "/image.png" },
+    { link: '/', text: 'Off-White', image: "/image.png" },
+    { link: '/', text: 'Bape', image: "/image.png" },
+    { link: '/', text: 'Palace', image: "/image.png" },
+    { link: '/', text: 'Kith', image: "/image.png" },
+    { link: '/', text: 'Stone Island', image: "/image.png" },
+    { link: '/', text: 'Fear of God', image: "/image.png" }
   ];
 
   const featuredProducts = [
@@ -28,7 +28,7 @@ export default function Home() {
       id: 1,
       name: "Supreme Box Logo Hoodie",
       price: "450",
-      image: "/placeholder.png",
+      image: "/image.png",
       isNew: true,
       category: "Hoodies",
       limited: true
@@ -37,7 +37,7 @@ export default function Home() {
       id: 2,
       name: "Off-White Arrows Tee",
       price: "320",
-      image: "/placeholder.png",
+      image: "/image.png",
       isNew: false,
       category: "T-Shirts",
       limited: false
@@ -46,7 +46,7 @@ export default function Home() {
       id: 3,
       name: "Bape Shark Full Zip",
       price: "680",
-      image: "/placeholder.png",
+      image: "/image.png",
       isNew: true,
       category: "Jackets",
       limited: true
@@ -55,7 +55,7 @@ export default function Home() {
       id: 4,
       name: "Palace Tri-Ferg Crewneck",
       price: "180",
-      image: "/placeholder.png",
+      image: "/image.png",
       isNew: false,
       category: "Sweatshirts",
       limited: false
@@ -67,7 +67,7 @@ export default function Home() {
       id: 5,
       name: "Supreme Bandana Tee",
       price: "250",
-      image: "",
+     image: "/image.png",
       sales: "1.2K",
       rating: 4.9
     },
@@ -75,7 +75,7 @@ export default function Home() {
       id: 6,
       name: "Kith Madison Hoodie",
       price: "220",
-      image: "",
+     image: "/image.png",
       sales: "890",
       rating: 4.8
     },
@@ -83,7 +83,7 @@ export default function Home() {
       id: 7,
       name: "Stone Island Compass Logo",
       price: "380",
-      image: "",
+     image: "/image.png",
       sales: "654",
       rating: 4.7
     }
@@ -299,7 +299,8 @@ export default function Home() {
             <div className="flex w-max animate-marquee">
               {[...demoItems, ...demoItems, ...demoItems].map(({ link, text }, index) => (
                 <div key={index} className="flex-shrink-0 px-12">
-                  <Link href={link} className="block">
+                  {/* <Link href={link} className="block"> */}
+
                     <motion.div
                       whileHover={{ scale: 1.05, y: -2 }}
                       transition={{ duration: 0.3 }}
@@ -307,7 +308,7 @@ export default function Home() {
                     >
                       {text}
                     </motion.div>
-                  </Link>
+                  {/* </Link> */}
                 </div>
               ))}
             </div>
@@ -464,8 +465,6 @@ export default function Home() {
           </motion.div>
         </div>
       </motion.section>
-
-      {/* Best Sellers Section - Sophisticated Design */}
       <motion.section
         className="min-h-screen w-full relative bg-gradient-to-br from-gray-800 via-gray-900 to-red-900 py-24"
         initial={{ opacity: 0 }}

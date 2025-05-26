@@ -17,6 +17,7 @@ import { SiBlueprint } from "react-icons/si";
 import { BooleanAction, setAction, setIsOpen } from "@/store/slice/booleanSlice";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import toast from "react-hot-toast";
 
 export default function CartItems() {
     const responsive = {
@@ -41,8 +42,7 @@ export default function CartItems() {
     const { jenisTopup, nomorTopup, nominalTopup } = useSelector(
         (state: RootState) => state.topup
     );
-
-
+    const router = useRouter()
     const dispatch = useDispatch<AppDispatch>();
     const { action } = useSelector((state: RootState) => state.boolean);
     const { items: products } = useSelector((state: RootState) => state.items);
@@ -58,10 +58,10 @@ export default function CartItems() {
     useEffect(() => {
         const token = localStorage.getItem("access_token");
         if (!token || token === "null" || token === "undefined") {
-            window.location.href = "/login";
+            router.push("/login");
         } else {
             dispatch(fetchItems()).unwrap().then((res) => {
-                console.log("Items fetched:", res);
+                // console.log("Items fetched:", res);
 
             });
         }
@@ -69,7 +69,8 @@ export default function CartItems() {
 
 
     const handleBayar = () => {
-        console.log("Bayar dengan data:", { jenisTopup, nomorTopup, nominalTopup });
+        // console.log("Bayar dengan data:", { jenisTopup, nomorTopup, nominalTopup });
+        toast.dismiss("Maaf, Page ini masih dalam tahap developtment")
     };
 
     return (
@@ -174,7 +175,6 @@ export default function CartItems() {
 
                             {/* Tabs */}
                             <motion.div className="flex border border-zinc-200">
-
                             </motion.div>
 
                             {/* Form */}

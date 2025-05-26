@@ -13,7 +13,7 @@ export default function Brands() {
             id: 1,
             name: "SUPREME",
             category: "streetwear",
-            logo: "/placeholder.png",
+            logo: "/image.png",
             description: "Iconic streetwear brand",
             isHot: true
         },
@@ -21,7 +21,7 @@ export default function Brands() {
             id: 2,
             name: "OFF-WHITE",
             category: "luxury",
-            logo: "/placeholder.png",
+            logo: "/image.png",
             description: "High-end fashion label",
             isHot: false
         },
@@ -29,7 +29,7 @@ export default function Brands() {
             id: 3,
             name: "BAPE",
             category: "streetwear",
-            logo: "/placeholder.png",
+            logo: "/image.png",
             description: "Japanese street fashion",
             isHot: true
         },
@@ -37,7 +37,7 @@ export default function Brands() {
             id: 4,
             name: "KITH",
             category: "trending",
-            logo: "/placeholder.png",
+            logo: "/image.png",
             description: "Modern lifestyle brand",
             isHot: false
         },
@@ -45,7 +45,7 @@ export default function Brands() {
             id: 5,
             name: "PALACE",
             category: "streetwear",
-            logo: "/placeholder.png",
+            logo: "/image.png",
             description: "London skateboard brand",
             isHot: true
         },
@@ -53,7 +53,7 @@ export default function Brands() {
             id: 6,
             name: "STONE ISLAND",
             category: "luxury",
-            logo: "/placeholder.png",
+            logo: "/image.png",
             description: "Italian premium brand",
             isHot: false
         }
@@ -209,8 +209,7 @@ export default function Brands() {
                                         whileTap={{ scale: 0.98 }}
                                         className="bg-gray-800 border border-gray-700 hover:border-red-600 rounded-lg overflow-hidden transition-all duration-300"
                                     >
-                                        <Link href={`/brands/${brand.name.toLowerCase()}`} className="block">
-
+                                        <div className="block">
                                             {brand.isHot && (
                                                 <div className="absolute top-3 right-3 z-10 bg-red-600 text-white px-2 py-1 text-xs font-bold rounded">
                                                     HOT
@@ -251,12 +250,12 @@ export default function Brands() {
                                                         {brand.category}
                                                     </span>
 
-                                                    <button className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 text-xs font-bold tracking-wide transition-colors rounded">
+                                                    <Link href={`https://int.bape./`} className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 text-xs font-bold tracking-wide transition-colors rounded">
                                                         EXPLORE
-                                                    </button>
+                                                    </Link>
                                                 </div>
                                             </div>
-                                        </Link>
+                                        </div>
                                     </motion.div>
                                 ))}
                             </motion.div>

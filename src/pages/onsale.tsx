@@ -206,7 +206,7 @@ export default function OnSale() {
                     </div>
                 </motion.section>
 
-                {/* Filter Section - Cyan Glass Theme */}
+              
                 <motion.section
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
@@ -238,14 +238,14 @@ export default function OnSale() {
                                 >
                                     Filter:
                                 </motion.p>
-                                <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-3">
+                                <div className="grid  lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-3">
                                     {['all', 'clothing', 'accessories', 'footwear'].map((category) => (
                                         <motion.button
                                             key={category}
                                             whileHover={{ scale: 1.05, y: -2 }}
                                             whileTap={{ scale: 0.95 }}
                                             onClick={() => setFilter(category)}
-                                            className={`px-6 py-3 rounded-xl font-light text-sm transition-all duration-300 backdrop-blur-sm border ${
+                                            className={`px-6 py-3 flex items-center justify-center rounded-xl font-light text-sm transition-all duration-300 backdrop-blur-sm border ${
                                                 filter === category
                                                     ? 'bg-gray-500/30 text-white border-gray-300/50 shadow-lg shadow-gray-500/25'
                                                     : 'bg-white/5 text-gray-200 border-gray-500/20 hover:bg-gray-500/20 hover:border-gray-400/40'

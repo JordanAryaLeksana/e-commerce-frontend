@@ -3,7 +3,7 @@ import Typography from "@/components/Typography/Typography";
 import { RootState } from "@/store/store";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import { fetchItems } from "@/store/slice/itemsSlice";
 import type { AppDispatch } from "@/store/store";
@@ -54,7 +54,13 @@ export default function NewArrivals() {
             }
         }
     };
-
+    const ref = useRef<HTMLDivElement>(null);
+    const handleScroll = () => {
+        if (ref.current) {
+            const scrollY = window.scrollY;
+            ref.current.style.transform = `translateY(${scrollY * 0.1}px)`;
+        }
+    };
     const floatingAnimation = {
         y: [-10, 10, -10],
         transition: {
@@ -88,6 +94,7 @@ export default function NewArrivals() {
                                 <motion.div
                                     animate={floatingAnimation}
                                     className="inline-block"
+                                    
                                 >
                                     <Typography type="Header" size="6xl" className="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-red-400 font-bold tracking-wide">
                                         NEW ARRIVALS
@@ -157,8 +164,9 @@ export default function NewArrivals() {
                     <motion.div 
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
+                        onClick={handleScroll}
                         transition={{ delay: 2.2, duration: 0.8 }}
-                        className="absolute bottom-[15%] left-[50%] -translate-x-1/2 flex flex-col justify-center items-center gap-3"
+                        className="absolute bottom-[2%] md:bottom-[10%] lg:bottom-[15%] left-[50%] -translate-x-1/2 flex flex-col justify-center items-center gap-3"
                     >
                         <p className="text-sm text-gray-400 font-light tracking-widest">
                             EXPLORE COLLECTION
@@ -254,7 +262,8 @@ export default function NewArrivals() {
                                         key={product.id}
                                         variants={itemVariants}
                                         whileHover={{ y: -8, scale: 1.02 }}
-                                        transition={{ duration: 0.5, ease: "easeOut" }}
+
+                                        transition={{ duration: 0.9, ease: "easeOut" }}
                                         className="group relative bg-gradient-to-b from-gray-900 to-black rounded-lg overflow-hidden shadow-2xl border border-gray-800 hover:border-red-900/50"
                                     >
                                         <Link href={`/catalog/${product.type}/${product.name}`} className="block">
@@ -371,7 +380,6 @@ export default function NewArrivals() {
                 </div>
             </motion.section>
 
-            {/* Newsletter Section - Minimalist Elegance */}
             <motion.section 
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}

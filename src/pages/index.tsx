@@ -525,7 +525,7 @@ export default function Home() {
                   {/* Product Image */}
                   <div className="relative overflow-hidden bg-gray-800">
                     <Image
-                      src={product.image}
+                      src={product.image  }
                       alt={product.name}
                       width={400}
                       height={400}

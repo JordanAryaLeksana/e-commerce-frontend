@@ -60,10 +60,10 @@ const Input = forwardRef<HTMLInputElement, InputTextProps>(function Input(
         <Component>
             <div className={`grid grid-cols-1 gap-2 ${className}`} style={style}>
                 <label htmlFor={id} className='block text-sm font-semibold text-white'>
-                    <Typography type="Header" size='2xl' className='text-sm font-bold text-red-600'>
-                        {label}{' '}
+                    <h1  className='text-xl font-extralight text-white shadow-sm'>
+                        {label}{' '}g
                         {required && <span className='font-bold text-red-500'>*</span>}
-                    </Typography>
+                    </h1>
                 </label>
                 <div className='w-full border rounded-md shadow-sm focus-within:border-red-500 focus-within:ring-1 focus-within:ring-red-500'>
                     {leftIcon && <span className='px-2'>{leftIcon}</span>}
@@ -76,9 +76,9 @@ const Input = forwardRef<HTMLInputElement, InputTextProps>(function Input(
                         placeholder={placeholder}
                         disabled={disabled}
                         autoComplete={autoComplete}
-                        ref={ref} // 👈 penting!
+                        ref={ref} 
                         className={clsxm(
-                            'w-full bg-red-800 text-white rounded-md px-3 py-2 outline-none',
+                            'w-full  bg-gray-900 border border-gray-700 focus:border-red-600 text-white font-light placeholder-gray-500 focus:outline-none',
                             error && 'border border-red-500 ring-1 ring-red-500',
                             className
                         )}

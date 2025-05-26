@@ -216,7 +216,7 @@ export default function OnSale() {
                     <div className="bg-gray-500/10 backdrop-blur-xl border border-gray-400/20 rounded-3xl p-8 shadow-2xl shadow-gray-500/10">
                         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
                             {/* Filters */}
-                            <div className="flex items-center gap-6">
+                            <div className="flex items-center gap-2">
                                 <motion.div
                                     animate={{
                                         rotate: [0, 10, -10, 0],
@@ -238,14 +238,14 @@ export default function OnSale() {
                                 >
                                     Filter:
                                 </motion.p>
-                                <div className="grid  lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-3">
+                                <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-3">
                                     {['all', 'clothing', 'accessories', 'footwear'].map((category) => (
                                         <motion.button
                                             key={category}
                                             whileHover={{ scale: 1.05, y: -2 }}
                                             whileTap={{ scale: 0.95 }}
                                             onClick={() => setFilter(category)}
-                                            className={`px-6 py-3 flex items-center justify-center rounded-xl font-light text-sm transition-all duration-300 backdrop-blur-sm border ${
+                                            className={`px-7 md:px-6 py-3 flex items-center justify-center rounded-xl font-light text-sm transition-all duration-300 backdrop-blur-sm border ${
                                                 filter === category
                                                     ? 'bg-gray-500/30 text-white border-gray-300/50 shadow-lg shadow-gray-500/25'
                                                     : 'bg-white/5 text-gray-200 border-gray-500/20 hover:bg-gray-500/20 hover:border-gray-400/40'

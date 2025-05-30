@@ -4,13 +4,15 @@ import itemsReducer from './slice/itemsSlice';
 import booleanReducer from './slice/booleanSlice';
 import detailSlice from './slice/itemsDetail';
 import colaboratorSlice from './slice/collabsSlice';
+import authReducer from './slice/authSlice';
 export const store = configureStore({
     reducer:{
         topup : topupReducer,
         items: itemsReducer,
         boolean: booleanReducer,
         detail: detailSlice,
-        colaborators: colaboratorSlice
+        colaborators: colaboratorSlice,
+        auth: authReducer
     }
 })
 

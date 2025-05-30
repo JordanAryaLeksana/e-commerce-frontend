@@ -8,35 +8,8 @@ import { fetchItems } from "@/store/slice/itemsSlice";
 import Image from "next/image";
 import Link from "next/link";
 import { HiOutlineHeart, HiCurrencyDollar, HiHeart, HiShoppingCart, HiFire, HiClock, HiTag, HiFilter } from "react-icons/hi";
-import { FormProvider, useForm } from "react-hook-form";
-import Input from "@/components/input/Input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { addCollaborator } from "@/store/slice/collabsSlice";
-import DismissableToast from "@/components/animated/ToastContainer";
-import toast from "react-hot-toast";
 
-type FormValues = {
-    name: string;
-    email: string;
-    role: "ecommerce_expert" | "supplier" | "influencer" | "developer";
-};
 
-const validationSchema = z.object({
-    name: z
-        .string()
-        .min(3, "Name must be at least 3 characters long")
-        .max(100, "Name must be less than 100 characters")
-        .nonempty("Name is required"),
-    email: z
-        .string()
-        .email("Invalid email address")
-        .max(100, "Email must be less than 100 characters")
-        .nonempty("Email is required"),
-    role: z.enum(["ecommerce_expert", "supplier", "influencer", "developer"], {
-        required_error: "Role is required"
-    }),
-});
 
 const floatingAnimation = {
     y: [-10, 10, -10],
@@ -58,30 +31,7 @@ export default function OnSale() {
         dispatch(fetchItems());
     }, [dispatch]);
 
-    const methods = useForm<FormValues>({
-        resolver: zodResolver(validationSchema),
-        defaultValues: {
-            name: "",
-            email: "",
-            role: "ecommerce_expert",
-        },
-    });
     
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = methods
-    
-    const submit = async (data: FormValues) => {
-        try {
-            await dispatch(addCollaborator(data)).unwrap();
-            toast.success("We've sent you an email! Thank you for joining our community.");
-            methods.reset();
-        } catch (error) {
-            toast.error("Failed to subscribe. Please try again later.");
-        }
-    }
 
     const saleProducts = products?.map((product, index) => ({
         ...product,
@@ -425,61 +375,19 @@ export default function OnSale() {
                             <motion.p className="text-cyan-200/80 font-light mb-8">
                                 Subscribe to get notified about flash sales and exclusive deals
                             </motion.p>
-
-                            <FormProvider {...methods}>
-                                <motion.form
-                                    onSubmit={handleSubmit(submit)}
-                                    className="rounded-2xl font-light flex flex-col mx-auto items-center justify-center gap-4 p-6"
+                            <Link href="/subscribe">
+                                <motion.button
+                                    whileHover={{ scale: 1.05, y: -2 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    className="bg-gradient-to-r from-cyan-900 to-teal-600 hover:from-cyan-400 hover:to-teal-500 text-white px-8 py-3 rounded-xl font-bold transition-all duration-300 shadow-lg shadow-cyan-500/25"
                                 >
-                                    <motion.div className="w-full">
-                                        <Input
-                                            id="name"
-                                            type="text"
-                                            label="Enter your name"
-                                            placeholder=""
-                                            autoComplete="off"
-                                            {...register("name")}
-                                        />
-                                    </motion.div>
-
-                                    <motion.div className="w-full">
-                                        <Input
-                                            id="email"
-                                            type="email"
-                                            label="Enter your email"
-                                            placeholder=""
-                                            autoComplete="off"
-                                            {...register("email")}
-                                        />
-                                    </motion.div>
-                                    
-                                    <motion.div className="w-full">
-                                        <select
-                                            {...register("role")}
-                                            defaultValue="ecommerce_expert"
-                                            className="w-full bg-cyan-500/20 backdrop-blur-sm text-cyan-100 border border-cyan-400/30 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-cyan-400/40 focus:border-cyan-300/60 transition-all duration-300"
-                                        >
-                                            <option value="ecommerce_expert" className="bg-slate-800 text-cyan-100">E-commerce Expert</option>
-                                            <option value="supplier" className="bg-slate-800 text-cyan-100">Supplier</option>
-                                            <option value="influencer" className="bg-slate-800 text-cyan-100">Influencer</option>
-                                            <option value="developer" className="bg-slate-800 text-cyan-100">Developer</option>
-                                        </select>
-                                    </motion.div>
-                                    
-                                    <motion.button
-                                        whileHover={{ scale: 1.05, y: -2 }}
-                                        whileTap={{ scale: 0.95 }}
-                                        className="bg-gradient-to-r from-cyan-900 to-teal-600 hover:from-cyan-400 hover:to-teal-500 text-white px-8 py-3 rounded-xl font-bold transition-all duration-300 shadow-lg shadow-cyan-500/25 w-full"
-                                    >
-                                        SUBSCRIBE
-                                    </motion.button>
-                                </motion.form>
-                            </FormProvider>
+                                    SUBSCRIBE NOW
+                                </motion.button>
+                            </Link>
                         </div>
                     </div>
               
                 </motion.section>
-
             </div>
         </Layout>
     );

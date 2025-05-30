@@ -45,8 +45,8 @@ export default function NewArrivals() {
 
     const itemVariants = {
         hidden: { opacity: 0, y: 20 },
-        visible: { 
-            opacity: 1, 
+        visible: {
+            opacity: 1,
             y: 0,
             transition: {
                 duration: 0.8,
@@ -72,7 +72,7 @@ export default function NewArrivals() {
 
     return (
         <Layout withNavbar withFooter>
-        
+
             <section className="h-full pt-32 w-full relative min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-red-900">
                 <div className="min-h-screen relative overflow-hidden">
 
@@ -85,7 +85,7 @@ export default function NewArrivals() {
                     <section className="h-full w-full relative z-10">
                         <div className="flex flex-col items-center justify-center h-full w-full mt-10 px-4">
                             {/* Elegant Brand Header */}
-                            <motion.div 
+                            <motion.div
                                 initial={{ opacity: 0, y: 30 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 1.2, ease: "easeOut" }}
@@ -94,13 +94,13 @@ export default function NewArrivals() {
                                 <motion.div
                                     animate={floatingAnimation}
                                     className="inline-block"
-                                    
+
                                 >
                                     <Typography type="Header" size="6xl" className="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-red-400 font-bold tracking-wide">
                                         NEW ARRIVALS
                                     </Typography>
                                 </motion.div>
-                                <motion.div 
+                                <motion.div
                                     initial={{ width: 0 }}
                                     animate={{ width: "100%" }}
                                     transition={{ delay: 1, duration: 1.5, ease: "easeOut" }}
@@ -108,7 +108,7 @@ export default function NewArrivals() {
                                 />
                             </motion.div>
 
-                            <motion.p 
+                            <motion.p
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.8, duration: 0.8 }}
@@ -117,7 +117,7 @@ export default function NewArrivals() {
                                 Fresh Drops & Exclusive Releases
                             </motion.p>
 
-                            <motion.p 
+                            <motion.p
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 1, duration: 0.8 }}
@@ -127,13 +127,13 @@ export default function NewArrivals() {
                             </motion.p>
 
                             {/* Elegant Stats */}
-                            <motion.div 
+                            <motion.div
                                 initial={{ opacity: 0, y: 30 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 1.4, duration: 0.8 }}
                                 className="flex flex-wrap justify-center gap-12 mt-8 text-gray-300"
                             >
-                                <motion.div 
+                                <motion.div
                                     whileHover={{ scale: 1.1 }}
                                     transition={{ duration: 0.3 }}
                                     className="text-center"
@@ -141,7 +141,7 @@ export default function NewArrivals() {
                                     <div className="text-3xl font-light text-white mb-2">Fresh</div>
                                     <div className="text-sm text-gray-400 tracking-wide">Daily Drops</div>
                                 </motion.div>
-                                <motion.div 
+                                <motion.div
                                     whileHover={{ scale: 1.1 }}
                                     transition={{ duration: 0.3 }}
                                     className="text-center"
@@ -149,7 +149,7 @@ export default function NewArrivals() {
                                     <div className="text-3xl font-light text-white mb-2">Limited</div>
                                     <div className="text-sm text-gray-400 tracking-wide">Edition</div>
                                 </motion.div>
-                                <motion.div 
+                                <motion.div
                                     whileHover={{ scale: 1.1 }}
                                     transition={{ duration: 0.3 }}
                                     className="text-center"
@@ -161,7 +161,7 @@ export default function NewArrivals() {
                         </div>
                     </section>
 
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         onClick={handleScroll}
@@ -218,7 +218,7 @@ export default function NewArrivals() {
                 transition={{ duration: 1.2, ease: "easeOut" }}
             >
                 <div className="max-w-7xl mx-auto px-4">
-                    <motion.div 
+                    <motion.div
                         className="text-center mb-20"
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -228,7 +228,7 @@ export default function NewArrivals() {
                         <h2 className="text-4xl text-transparent bg-clip-text bg-gradient-to-r from-white to-red-400 font-light tracking-wide mb-4">
                             Latest Collection
                         </h2>
-                        <motion.div 
+                        <motion.div
                             initial={{ width: 0 }}
                             whileInView={{ width: "200px" }}
                             viewport={{ once: true }}
@@ -281,7 +281,7 @@ export default function NewArrivals() {
                                             </div>
 
                                             {/* Elegant Wishlist Button */}
-                                            <motion.button 
+                                            <motion.button
                                                 whileHover={{ scale: 1.1 }}
                                                 whileTap={{ scale: 0.95 }}
                                                 transition={{ duration: 0.2 }}
@@ -290,7 +290,7 @@ export default function NewArrivals() {
                                                 <HiOutlineHeart className="text-lg" />
                                             </motion.button>
 
-                                          
+
                                             <div className="relative overflow-hidden bg-gray-800 rounded-t-lg">
                                                 <Image
                                                     src={product.image || "/placeholder.png"}
@@ -299,8 +299,8 @@ export default function NewArrivals() {
                                                     height={400}
                                                     className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-700"
                                                 />
-                                                
-                                              
+
+
                                                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end justify-center pb-6">
                                                     <motion.div
                                                         initial={{ y: 20, opacity: 0 }}
@@ -318,7 +318,7 @@ export default function NewArrivals() {
                                                 <p className="text-xs text-red-400 font-light tracking-wider mb-2">
                                                     {product.type || "STREETWEAR"}
                                                 </p>
-                                                
+
                                                 <h3 className="text-lg font-light text-white mb-4 line-clamp-2 hover:text-gray-300 transition-colors duration-300">
                                                     {product.name?.toUpperCase() || `PRODUCT ${product.id}`}
                                                 </h3>
@@ -329,7 +329,7 @@ export default function NewArrivals() {
                                                         <HiCurrencyDollar className="mr-1 text-gray-400" />
                                                         {product.price || "TBA"}
                                                     </div>
-                                                    
+
                                                     <motion.div
                                                         whileHover={{ scale: 1.05 }}
                                                         whileTap={{ scale: 0.95 }}
@@ -360,7 +360,7 @@ export default function NewArrivals() {
                     )}
 
                     {Array.isArray(products) && products.length > 12 && (
-                        <motion.div 
+                        <motion.div
                             className="text-center mt-20"
                             initial={{ opacity: 0 }}
                             whileInView={{ opacity: 1 }}
@@ -379,13 +379,13 @@ export default function NewArrivals() {
                     )}
                 </div>
             </motion.section>
-
-            <motion.section 
+           
+            <motion.section
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 1.2, ease: "easeOut" }}
-                className="bg-gradient-to-r from-black via-gray-900 to-black py-24 relative overflow-hidden"
+                className=" bg-gradient-to-r from-black via-gray-900 to-black py-24 relative overflow-hidden"
             >
                 {/* Subtle Pattern */}
                 <div className="absolute inset-0 opacity-5">
@@ -393,7 +393,6 @@ export default function NewArrivals() {
                         backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
                     }} />
                 </div>
-
                 <div className="max-w-4xl mx-auto text-center px-4 relative z-10">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
@@ -404,7 +403,7 @@ export default function NewArrivals() {
                         <Typography size="3xl" type="Header" className="font-light text-transparent bg-clip-text bg-gradient-to-r from-white to-red-400 tracking-wide mb-6">
                             Stay Updated
                         </Typography>
-                        <motion.div 
+                        <motion.div
                             initial={{ width: 0 }}
                             whileInView={{ width: "100px" }}
                             viewport={{ once: true }}
@@ -416,29 +415,15 @@ export default function NewArrivals() {
                     <Typography size="lg" type="Paragraph" className="text-gray-400 mb-12 font-light">
                         Get notified about new drops and exclusive releases
                     </Typography>
-                    
-                    <motion.div 
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.8, duration: 0.8 }}
-                        className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto"
-                    >
-                        <input
-                            type="email"
-                            placeholder="Enter your email"
-                            className="flex-1 px-6 py-4 bg-gray-900 border border-gray-700 focus:border-red-600 text-white font-light placeholder-gray-500 focus:outline-none transition-colors duration-300 rounded-sm"
-                        />
-                        <motion.button
-                            whileHover={{ scale: 1.05, y: -2 }}
-                            whileTap={{ scale: 0.98 }}
-                            transition={{ duration: 0.2 }}
-                            className="bg-gradient-to-r from-red-800 to-red-900 hover:from-red-700 hover:to-red-800 text-white px-8 py-4 font-light tracking-wide transition-all duration-300 rounded-sm"
-                        >
-                            Subscribe
-                        </motion.button>
-                    </motion.div>
-
+                        <Link href="/subscribe">
+                            <motion.button
+                                whileHover={{ scale: 1.05, y: -2 }}
+                                whileTap={{ scale: 0.95 }}
+                                className="bg-gradient-to-r from-cyan-900 to-teal-600 hover:from-cyan-400 hover:to-teal-500 text-white px-8 py-3 rounded-xl font-bold transition-all duration-300 shadow-lg shadow-cyan-500/25"
+                            >
+                                SUBSCRIBE NOW
+                            </motion.button>
+                        </Link>
                     <p className="text-sm text-gray-500 mt-8 font-light">
                         No spam, unsubscribe at any time
                     </p>

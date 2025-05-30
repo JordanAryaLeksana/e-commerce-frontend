@@ -11,7 +11,7 @@ import Image from "next/image";
 import { HiOutlineHeart, HiHeart, HiShoppingCart, HiShare, HiStar } from "react-icons/hi";
 import { FaShippingFast, FaShieldAlt, FaUndo } from "react-icons/fa";
 import { MdVerified } from "react-icons/md";
-
+import Cookies from 'js-cookie';
 export default function ProductPage() {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
@@ -21,7 +21,7 @@ export default function ProductPage() {
   const [selectedSize, setSelectedSize] = useState('');
 
   useEffect(() => {
-    const token = localStorage.getItem("access_token");
+    const token = Cookies.get("access_token");
     if (!token || token === "null" || token === "undefined") {
       window.location.href = "/login";
     }

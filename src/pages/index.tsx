@@ -67,7 +67,7 @@ export default function Home() {
       id: 5,
       name: "Supreme Bandana Tee",
       price: "250",
-     image: "/image.png",
+      image: "/image.png",
       sales: "1.2K",
       rating: 4.9
     },
@@ -75,7 +75,7 @@ export default function Home() {
       id: 6,
       name: "Kith Madison Hoodie",
       price: "220",
-     image: "/image.png",
+      image: "/image.png",
       sales: "890",
       rating: 4.8
     },
@@ -83,7 +83,7 @@ export default function Home() {
       id: 7,
       name: "Stone Island Compass Logo",
       price: "380",
-     image: "/image.png",
+      image: "/image.png",
       sales: "654",
       rating: 4.7
     }
@@ -301,13 +301,13 @@ export default function Home() {
                 <div key={index} className="flex-shrink-0 px-12">
                   {/* <Link href={link} className="block"> */}
 
-                    <motion.div
-                      whileHover={{ scale: 1.05, y: -2 }}
-                      transition={{ duration: 0.3 }}
-                      className="text-gray-400 hover:text-white font-light text-lg tracking-wider transition-colors duration-500"
-                    >
-                      {text}
-                    </motion.div>
+                  <motion.div
+                    whileHover={{ scale: 1.05, y: -2 }}
+                    transition={{ duration: 0.3 }}
+                    className="text-gray-400 hover:text-white font-light text-lg tracking-wider transition-colors duration-500"
+                  >
+                    {text}
+                  </motion.div>
                   {/* </Link> */}
                 </div>
               ))}
@@ -524,7 +524,7 @@ export default function Home() {
                   {/* Product Image */}
                   <div className="relative overflow-hidden bg-gray-800">
                     <Image
-                      src={product.image  }
+                      src={product.image}
                       alt={product.name}
                       width={400}
                       height={400}
@@ -634,11 +634,7 @@ export default function Home() {
             transition={{ delay: 0.8, duration: 0.8 }}
             className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto"
           >
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="flex-1 px-6 py-4 bg-gray-900 border border-gray-700 focus:border-red-600 text-white font-light placeholder-gray-500 focus:outline-none transition-colors duration-300 rounded-sm"
-            />
+          <Link href={"/subscribe"} className="w-full">
             <motion.button
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.98 }}
@@ -647,13 +643,13 @@ export default function Home() {
             >
               Subscribe
             </motion.button>
-          </motion.div>
-
-          <p className="text-sm text-gray-500 mt-8 font-light">
-            No spam, unsubscribe at any time
-          </p>
-        </div>
-      </motion.section>
-    </Layout>
+          </Link>
+        </motion.div>
+        <p className="text-sm text-gray-500 mt-8 font-light">
+          No spam, unsubscribe at any time
+        </p>
+      </div>
+    </motion.section>
+    </Layout >
   );
 }

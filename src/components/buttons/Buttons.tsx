@@ -12,7 +12,7 @@ enum ColorType {
     "Dark"
 }
 interface ButtonProps {
-    onClick: () => void;
+    onClick?: () => void;
     className?: string;
     type: keyof typeof ButtonType;
     color: keyof typeof ColorType;

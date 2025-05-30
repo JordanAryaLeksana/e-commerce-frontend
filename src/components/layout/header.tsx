@@ -7,32 +7,48 @@ import TextPressure from "@/components/animated/pressure.text";
 import Button from "@/components/buttons/Buttons";
 import Typography from "../Typography/Typography";
 import TrueFocus from "../animated/true.text";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch } from "@/store/store";
+import Cookies from "js-cookie";
+import axiosClient from "@/lib/axios";
+
+
+interface User {
+    id: string;
+    name: string;
+    email: string;
+
+}
 
 export default function Header() {
     const router = useRouter();
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [user, setUser] = useState<{ name: string } | null>(null);
+    const dispatch = useDispatch<AppDispatch>();
 
-    useEffect(() => {
-        const access_token = localStorage.getItem("access_token");
-        const refresh_token = localStorage.getItem("refresh_token");
-        const userStr = localStorage.getItem("user");
-
-        if (!access_token || !refresh_token || !userStr) {
-            router.push("/login");
-        } else {
-            setIsAuthenticated(true);
-            try {
-                setUser(JSON.parse(userStr));
-            } catch (e) {
-                console.error("Failed to parse user:", e);
+    const getUserUser = async () => {
+        try {
+            const res = await axiosClient.get("/users/current");
+            if (res.data.data) {
+                return res.data.data;
             }
+        } catch (error) {
+            console.error("Failed to fetch user:", error);
         }
+        return null;
+    };
+
+    const [user, setUser] = useState<User | null>(null);
+    useEffect(() => {
+        const fetchUser = async () => {
+            const userData = await getUserUser();
+            if (userData) {
+                setUser(userData);
+            } else {
+                setUser(null);
+            }
+        };
+        fetchUser();
     }, []);
 
-    if (!isAuthenticated || !user) {
-        return null; 
-    }
 
     return (
         <header className="w-full flex justify-between items-center px-6 py-8 bg-zinc-950">
@@ -57,22 +73,17 @@ export default function Header() {
 
                 <div className="flex items-center gap-2">
                     <Typography size="xl" type="Header" className="text-white font-semibold ">
-                        <TrueFocus
-                            sentence={`Welcome, ${user.name}`}
-                            manualMode={false}
-                            blurAmount={5}
-                            borderColor="red"
-                            animationDuration={2}
-                            pauseBetweenAnimations={1}
-                        />
+                        {user ? `Welcome, ${user.name}` : "Welcome, Guest"}
                     </Typography>
                     <Button
                         onClick={() => {
-                            localStorage.removeItem("access_token");
-                            localStorage.removeItem("refresh_token");
-                            localStorage.removeItem("user");
-                            router.push("/");
+                            Cookies.remove("access_token");
+                            Cookies.remove("refresh_token");
+                            Cookies.remove("user");
+                            Cookies.remove("user_id");
+                            router.push("/login");
                         }}
+
                         className="bg-[#e60012] hover:bg-[#c40010] text-white font-semibold text-sm px-4 py-1"
                         type="button"
                         color="Light"

@@ -1,18 +1,23 @@
+import { setToken } from "@/store/slice/authSlice";
+import { store } from "@/store/store";
 import axios from "axios";
-
+import Cookies from "js-cookie";
 const axiosClient = axios.create({
-    baseURL: "https://ecommerce-be-production-60ab.up.railway.app/api",
-    headers: {
-        "Content-Type": "application/json",
-    },
+  // baseURL:
+  //  "https://ecommerce-be-production-60ab.up.railway.app/api",
+  baseURL: "http://localhost:8000/api",
+  headers: {
+    "Content-Type": "application/json",
+  },
 })
 axiosClient.interceptors.request.use((config) => {
-    const token = localStorage.getItem("access_token");
-    if(config.headers){
-        config.headers.Authorization = token ? `Bearer ${token}` : '';
-    }
-    console.log("Request made with ", config);
-    return config;
+  const token = Cookies.get("access_token");
+  console.log("Current token:", token);
+   if (config.headers) {
+      config.headers.Authorization = token ? `Bearer ${token}` : "";
+  }
+  return config;
+
 })
 
 axiosClient.interceptors.response.use(
@@ -23,25 +28,24 @@ axiosClient.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const refreshToken = localStorage.getItem("refresh_token");
-        const userId = localStorage.getItem("user_id"); 
+        const refreshToken = Cookies.get("refresh_token");
+        const userId = Cookies.get("user_id"); 
         const res = await axiosClient.post("/users/refresh-token", {
           refreshToken,
           userId
         });
         const { accessToken, refreshToken: newRefreshToken } = res.data;
+        store.dispatch(setToken(accessToken));
         console.log("New tokens:", accessToken, newRefreshToken);
-        localStorage.setItem("access_token", accessToken);
-        localStorage.setItem("refresh_token", newRefreshToken);
-
-       
+        Cookies.set("access_token", accessToken);
+        Cookies.set("refresh_token", newRefreshToken);
         originalRequest.headers.Authorization = `Bearer ${accessToken}`;
         return axiosClient(originalRequest);
       } catch (err) {
         console.error("Refresh token error:", err);
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("refresh_token");
-        localStorage.removeItem("user_id");
+        Cookies.remove("access_token");
+        Cookies.remove("refresh_token");
+        Cookies.remove("user_id");
         window.location.href = "/login"; 
         return Promise.reject(err);
       }

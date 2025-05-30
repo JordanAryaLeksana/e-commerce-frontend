@@ -339,31 +339,33 @@ export default function Brands() {
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.5, duration: 0.6 }}
                         >
-                            <motion.button
-                                whileHover={{
-                                    scale: 1.08,
-                                    boxShadow: "0 20px 40px rgba(255, 0, 20, 0.4)",
-                                    y: -5
-                                }}
-                                whileTap={{ scale: 0.95 }}
-                                animate={{
-                                    boxShadow: [
-                                        "0 0 0 rgba(168, 85, 247, 0)",
-                                        "0 10px 20px rgba(255, 0, 0, 0.2)",
-                                        "0 20px 40px rgba(255, 0, 20, 0.4)",
-                                        "0 10px 20px rgba(255, 0, 40, 0.2)",
-                                        "0 0 0 rgba(168, 85, 247, 0)"
-                                    ]
-                                }}
-                                transition={{
-                                    duration: 1,
-                                    repeat: 0,
-                                    ease: "easeInOut"
-                                }}
-                                className="bg-red-700 text-white px-6 py-3 rounded-xl font-black"
-                            >
-                                APPLY NOW
-                            </motion.button>
+                            <Link href="/subscribe" className="inline-block">
+                                <motion.button
+                                    whileHover={{
+                                        scale: 1.08,
+                                        boxShadow: "0 20px 40px rgba(255, 0, 20, 0.4)",
+                                        y: -5
+                                    }}
+                                    whileTap={{ scale: 0.95 }}
+                                    animate={{
+                                        boxShadow: [
+                                            "0 0 0 rgba(168, 85, 247, 0)",
+                                            "0 10px 20px rgba(255, 0, 0, 0.2)",
+                                            "0 20px 40px rgba(255, 0, 20, 0.4)",
+                                            "0 10px 20px rgba(255, 0, 40, 0.2)",
+                                            "0 0 0 rgba(168, 85, 247, 0)"
+                                        ]
+                                    }}
+                                    transition={{
+                                        duration: 1,
+                                        repeat: 0,
+                                        ease: "easeInOut"
+                                    }}
+                                    className="bg-red-700 text-white px-6 py-3 rounded-xl font-black"
+                                >
+                                    APPLY NOW
+                                </motion.button>
+                            </Link>
                         </motion.div>
                     </div>
                 </motion.section>

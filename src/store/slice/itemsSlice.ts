@@ -1,24 +1,30 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axiosClient from "@/lib/axios";
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 
 enum ItemType {
-  books = "books",
-  project = "projects",
-  tools = "tools",
+  Tshirt = "Tshirt",
+  Hoodies = "Hoodies",
+  Streetwear = "Streetwear",
+  luxury = "luxury",
+  Jackets = "Jackets",
+  Sweatshirts = "Sweatshirts",
 }
 
 interface ItemData {
   id: string;
+  type: keyof typeof ItemType;
+  // type: "Tshirt" | "Hoodies" | "Streetwear" | "Luxury" | "Jackets" | "Sweatshirts";
   name: string;
   price: number;
+  rating: number;
   image: string;
-  description: string;
+  isHot: boolean;
+  isNew: boolean;
+  isFeatured: boolean;
+  isOnSale: boolean;
   stock: number;
-  type: keyof typeof ItemType;
-  books: string[];
-  finalproject: string[];
-  tools: string[];
+  description: string;
 }
 
 interface ItemsState {
@@ -40,6 +46,7 @@ export const fetchItems = createAsyncThunk<ItemData[]>(
       return res.data.data.flatMap((group: { item: ItemData[] }) => group.item);
     } catch (err: any) {
       console.error("Error in fetchItems:", err);
+      
       return thunkAPI.rejectWithValue(err.response?.data?.message || "Gagal fetch items");
     }
   }
@@ -65,7 +72,7 @@ const initialState: ItemsState = {
   category: [],
   loading: false,
   error: null,
-  initialcategory: "books",
+  initialcategory: "Tshirt",
 };
 
 const itemsSlice = createSlice({
@@ -91,7 +98,7 @@ const itemsSlice = createSlice({
       })
       .addCase(fetchItems.fulfilled, (state, action) => {
         state.items = action.payload;
-        state.category = state.items.filter(item => item.type === "books");
+        state.category = state.items.filter(item => item.type === "Tshirt");
         state.loading = false;
         state.error = null;
       })
@@ -100,7 +107,7 @@ const itemsSlice = createSlice({
         state.error = action.payload as string;
         console.error("fetchItems rejected:", action.payload);
       })
-      
+
       // getItemsByCategory cases
       .addCase(getItemsByCategory.pending, (state) => {
         state.loading = true;
@@ -110,7 +117,7 @@ const itemsSlice = createSlice({
         if (action.payload.length > 0) {
           state.category = action.payload;
         } else {
-          state.category = state.items.filter(item => item.type === "books");
+          state.category = state.items.filter(item => item.type === "Tshirt");
         }
         state.loading = false;
         state.error = null;
@@ -119,7 +126,7 @@ const itemsSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
         console.error("getItemsByCategory rejected:", action.payload);
-        state.category = state.items.filter(item => item.type === "books");
+        state.category = state.items.filter(item => item.type === "Tshirt");
       });
   },
 });

@@ -1,9 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export enum BooleanAction {
-  books = "books",
-  projects = "projects",
-  tools = "tools",
+  Tshirts = "Tshirts",
+  Hoodies = "Hoodies",
+  Streetwear = "Streetwear",
+  Luxury = "Luxury",
+  Jackets = "Jackets",
+  Sweatshirts = "Sweatshirts",
 }
 
 interface BooleanState {
@@ -13,7 +16,7 @@ interface BooleanState {
 
 const initialState: BooleanState = {
   isOpen: false,
-  action: BooleanAction.books,
+  action: BooleanAction.Tshirts,
 };
 
 const booleanSlice = createSlice({

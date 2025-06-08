@@ -27,7 +27,7 @@ export default function CartItems() {
     const [isAuthChecked, setIsAuthChecked] = useState(false);
     const [selectedTopupType, setSelectedTopupType] = useState("Token Listrik");
     const [topupNumber, setTopupNumber] = useState("");
-    const [topupAmount, setTopupAmount] = useState("20rb");
+    const [topupAmount , setTopupAmount] = useState("20rb");
 
     const responsive = {
         superLargeDesktop: {
@@ -65,9 +65,7 @@ export default function CartItems() {
     };
     useEffect(() => {
         const cookieToken = Cookies.get("access_token");
-
-        // Kalau tidak ada token sama sekali di cookie dan Redux, redirect
-        if (!token && !cookieToken) {
+        if (!token && !cookieToken || token === "undefined") {
             router.push("/login");
             return;
         }
@@ -85,7 +83,7 @@ export default function CartItems() {
             dispatch(setToken(cookieToken));
         }
 
-        if (token || cookieToken) {
+        if (token || cookieToken && cookieToken !== "undefined") {
             setIsAuthChecked(true);
             dispatch(fetchItems());
         } else {
@@ -119,7 +117,7 @@ export default function CartItems() {
 
     return (
         <Layout withNavbar withFooter withHeader>
-            <div className="w-full min-h-screen bg-gray-50 mt-52 p-4 lg:p-8 space-y-8">
+            <div className="w-full min-h-screen bg-gray-50 mt-64 md:mt-52 p-4 lg:p-8 space-y-8">
                
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -214,38 +212,61 @@ export default function CartItems() {
                                 <motion.button
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
-                                    onClick={() => HandleClickCategory(BooleanAction.books)}
+                                    onClick={() => HandleClickCategory(BooleanAction.Tshirts)}
                                     className="flex items-center gap-3 p-4 rounded-lg bg-white border-2 border-gray-200 hover:border-blue-400 hover:bg-blue-50 transition-all"
                                 >
                                     <HiBookOpen className="text-blue-600 text-xl" />
                                     <Typography size="sm" type="Paragraph" className="text-gray-700 font-medium">
-                                        Books
+                                        T-Shirt
                                     </Typography>
                                 </motion.button>
 
                                 <motion.button
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
-                                    onClick={() => HandleClickCategory(BooleanAction.tools)}
+                                    onClick={() => HandleClickCategory(BooleanAction.Hoodies)}
                                     className="flex items-center gap-3 p-4 rounded-lg bg-white border-2 border-gray-200 hover:border-blue-400 hover:bg-blue-50 transition-all"
                                 >
                                     <FaTools className="text-blue-600 text-xl" />
                                     <Typography size="sm" type="Paragraph" className="text-gray-700 font-medium">
-                                        Tools
+                                        Hoodies
                                     </Typography>
                                 </motion.button>
 
                                 <motion.button
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
-                                    onClick={() => HandleClickCategory(BooleanAction.projects)}
+                                    onClick={() => HandleClickCategory(BooleanAction.Jackets)}
                                     className="flex items-center gap-3 p-4 rounded-lg bg-white border-2 border-gray-200 hover:border-blue-400 hover:bg-blue-50 transition-all"
                                 >
                                     <SiBlueprint className="text-blue-600 text-xl" />
                                     <Typography size="sm" type="Paragraph" className="text-gray-700 font-medium">
-                                        Blueprints
+                                        Jackets
                                     </Typography>
                                 </motion.button>
+                                <motion.button
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
+                                    onClick={() => HandleClickCategory(BooleanAction.Luxury)}
+                                    className="flex items-center gap-3 p-4 rounded-lg bg-white border-2 border-gray-200 hover:border-blue-400 hover:bg-blue-50 transition-all"
+                                >
+                                    <SiBlueprint className="text-blue-600 text-xl" />
+                                    <Typography size="sm" type="Paragraph" className="text-gray-700 font-medium">
+                                        Luxury
+                                    </Typography>
+                                </motion.button>
+                                <motion.button
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
+                                    onClick={() => HandleClickCategory(BooleanAction.Sweatshirts)}
+                                    className="flex items-center gap-3 p-4 rounded-lg bg-white border-2 border-gray-200 hover:border-blue-400 hover:bg-blue-50 transition-all"
+                                >
+                                    <SiBlueprint className="text-blue-600 text-xl" />
+                                    <Typography size="sm" type="Paragraph" className="text-gray-700 font-medium">
+                                        Sweatshirts
+                                    </Typography>
+                                </motion.button>
+                               
                             </div>
 
                             {/* Filtered Products */}

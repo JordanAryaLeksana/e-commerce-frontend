@@ -5,8 +5,9 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'itdevecs2025-2026.github.io',
-        pathname: '/Images-frontend/**',
+        hostname: 'source.unsplash.com',
+        port: '',
+        pathname: '/**',
       },
     ],
   },

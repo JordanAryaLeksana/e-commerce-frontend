@@ -9,7 +9,6 @@ import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 import Button from "@/components/buttons/Buttons";
 import { motion } from "framer-motion";
-import { HiEye, HiEyeOff } from "react-icons/hi";
 import { useState } from "react";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
@@ -35,7 +34,7 @@ const validationSchema = z.object({
 export default function Login() {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
-  const [showPassword, setShowPassword] = useState(false);
+ 
 
   const handleForm = useForm<FormValues>({
     defaultValues: {
@@ -209,25 +208,14 @@ return (
 
                 />
 
-
-                <div className="absolute right-3 top-1/2 transform -translate-y-1/2 z-10">
-                  <motion.button
-                    type="button"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="text-gray-400 hover:text-cyan-400 transition-colors duration-200"
-                  >
-                    {showPassword ? <HiEyeOff className="text-lg" /> : <HiEye className="text-lg" />}
-                  </motion.button>
-                </div>
                 <Input
                   id="password"
-                  type={showPassword ? "text" : "password"}
+                  type={"password"}
                   label="Password"
                   placeholder="Enter your password"
                   required
                   autoComplete="off"
+                  showPassword
                   {...register("password")}
 
                 />

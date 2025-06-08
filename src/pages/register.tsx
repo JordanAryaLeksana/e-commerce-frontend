@@ -210,7 +210,7 @@ export default function Register() {
                                         />
 
                                         {/* Password Field */}
-                                        <div className="relative">
+                                      
                                             <Input
                                                 id="password"
                                                 type={showPassword ? "text" : "password"}
@@ -219,19 +219,10 @@ export default function Register() {
                                                 required
                                                 autoComplete="off"
                                                 {...register("password")}
-                                            />
-                                            <div className="absolute right-3 top-1/2 transform -translate-y-1/2 z-10">
-                                                <motion.button
-                                                    type="button"
-                                                    whileHover={{ scale: 1.1 }}
-                                                    whileTap={{ scale: 0.95 }}
-                                                    onClick={() => setShowPassword(!showPassword)}
-                                                    className="text-gray-400 hover:text-cyan-400 transition-colors duration-200"
-                                                >
-                                                    {showPassword ? <HiEyeOff className="text-lg" /> : <HiEye className="text-lg" />}
-                                                </motion.button>
-                                            </div>
-                                        </div>
+                                                showPassword={true}
+                                        />
+
+                                      
                                     </motion.div>
 
                                     {/* Register Button */}
@@ -281,7 +272,7 @@ export default function Register() {
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
                                         transition={{ delay: 0.8, duration: 0.6 }}
-                                        className="text-center space-y-3 pt-4"
+                                        className="text-center flex flex-col items-center text-wrap space-y-3 pt-4"
                                     >
                                         <div className="flex items-center gap-4">
                                             <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-600/30 to-transparent" />
@@ -291,7 +282,7 @@ export default function Register() {
                                             <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-600/30 to-transparent" />
                                         </div>
 
-                                        <div className="flex justify-center items-center text-nowrap gap-3 text-xs">
+                                        <div className="flex justify-center items-center text-wrap gap-3 text-xs">
                                             <motion.a
                                                 href="/login"
                                                 whileHover={{ scale: 1.05, color: "#06b6d4" }}

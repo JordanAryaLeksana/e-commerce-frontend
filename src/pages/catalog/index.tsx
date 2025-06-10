@@ -54,29 +54,16 @@ export default function CartItems() {
     const filteredItems = useSelector((state: RootState) => state.items?.category || []);
     const token = useSelector((state: RootState) => state.auth?.token);
     const loading = useSelector((state: RootState) => state.items?.loading);
+
     const filteredProducts = useMemo(() => {
         if (!filteredItems || !Array.isArray(filteredItems)) return [];
-        return filteredItems.filter((item) => item?.type === action);
+        return filteredItems.filter((item) => item?.type === (action as unknown as string));
     }, [filteredItems, action]);
     const HandleClickCategory = (category: BooleanAction) => {
         dispatch(setIsOpen(true));
         dispatch(setAction(category));
         dispatch(getItemsByCategory(category));
     };
-    useEffect(() => {
-        const cookieToken = Cookies.get("access_token");
-        if (!token && !cookieToken || token === "undefined") {
-            router.push("/login");
-            return;
-        }
-
-        if (!token && cookieToken) {
-            dispatch(setToken(cookieToken));   
-            return;
-        }
-        setIsAuthChecked(true);
-    }, [token, dispatch, router]);
-
     useEffect(() => {
         const cookieToken = Cookies.get("access_token");
         if (!token && cookieToken) {

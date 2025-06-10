@@ -5,6 +5,8 @@ import booleanReducer from './slice/booleanSlice';
 import detailSlice from './slice/itemsDetail';
 import colaboratorSlice from './slice/collabsSlice';
 import authReducer from './slice/authSlice';
+import cartReducer from './slice/cartSlice';
+import quantityReducer from './slice/quantitySlice';
 export const store = configureStore({
     reducer:{
         topup : topupReducer,
@@ -12,7 +14,9 @@ export const store = configureStore({
         boolean: booleanReducer,
         detail: detailSlice,
         colaborators: colaboratorSlice,
-        auth: authReducer
+        auth: authReducer,
+        cart: cartReducer,
+        quantity: quantityReducer
     }
 })
 

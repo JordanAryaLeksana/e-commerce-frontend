@@ -13,6 +13,7 @@ import { FaShippingFast, FaShieldAlt, FaUndo, FaCrown } from "react-icons/fa";
 import { MdVerified, MdLocalOffer } from "react-icons/md";
 import { BiSupport } from "react-icons/bi";
 import Cookies from 'js-cookie';
+import { addToCart } from '@/store/slice/cartSlice';
 
 export default function ProductPage() {
   const router = useRouter();
@@ -37,7 +38,9 @@ export default function ProductPage() {
     }
   }, [router.isReady, router.query, dispatch]);
 
-  const productData = useSelector((state: RootState) => state.detail.items);
+  const detailState = useSelector((state: RootState) => state.detail);
+  console.log('detailState:', detailState.items);
+  const productData = detailState.items;
   const loading = useSelector((state: RootState) => state.detail.loading);
 
   if (!router.isReady || loading) {
@@ -65,7 +68,7 @@ export default function ProductPage() {
         <div className="w-full min-h-screen bg-gray-50 mt-32 flex flex-col items-center justify-center text-gray-800">
           <Typography size="4xl" type="Header" className="text-red-600 mb-4">404</Typography>
           <Typography size="2xl" type="Header" className="mb-4">Product Not Found</Typography>
-          <button 
+          <button
             onClick={() => router.back()}
             className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
           >
@@ -82,11 +85,27 @@ export default function ProductPage() {
     product.image || "/placeholder.png",
     product.image || "/placeholder.png"
   ];
-  
   const handleAddToCart = () => {
-    console.log("Added to cart:", { product, quantity });
-  };
+    const userId = Cookies.get("user_id");
 
+    if (!userId || userId === "undefined") {
+      console.error("User ID is missing from cookies");
+      alert("You must be logged in to add items to cart.");
+      return;
+    }
+
+    dispatch(addToCart({
+      itemId: product.id,
+      name: product.name,
+      price: product.price || 0,
+      image: product.image || "/placeholder.png",
+      quantity,
+      totalPrice: (product.price || 2000000) * quantity,
+      stock: product.stock,
+      type: product.type,
+      userId: userId,
+    }));
+  };
   const handleBuyNow = () => {
     console.log("Buy now:", { product, quantity });
   };
@@ -98,7 +117,7 @@ export default function ProductPage() {
     <Layout withNavbar withFooter withHeader>
       <div className="w-full min-h-screen bg-gray-50 mt-36">
         {/* Breadcrumb */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="px-6 py-4 bg-white border-b"
@@ -113,7 +132,7 @@ export default function ProductPage() {
         <div className="max-w-7xl mx-auto px-6 py-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {/* Product Images - Left Side */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
@@ -142,9 +161,8 @@ export default function ProductPage() {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => setSelectedImage(idx)}
-                    className={`aspect-square bg-white rounded-lg overflow-hidden border-2 transition-all shadow-sm ${
-                      selectedImage === idx ? 'border-red-500 ring-2 ring-red-200' : 'border-gray-200 hover:border-red-300'
-                    }`}
+                    className={`aspect-square bg-white rounded-lg overflow-hidden border-2 transition-all shadow-sm ${selectedImage === idx ? 'border-red-500 ring-2 ring-red-200' : 'border-gray-200 hover:border-red-300'
+                      }`}
                   >
                     <Image
                       src={img}
@@ -159,7 +177,7 @@ export default function ProductPage() {
             </motion.div>
 
             {/* Product Details - Right Side */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
@@ -332,7 +350,7 @@ export default function ProductPage() {
           </div>
 
           {/* Product Description */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
@@ -384,7 +402,7 @@ export default function ProductPage() {
                     PRAMSTORE QUALITY GUARANTEE
                   </Typography>
                   <Typography size="base" type="Paragraph" className="text-gray-700 mb-4">
-                    Setiap produk PramStore telah melewati quality control ketat dan dilengkapi dengan garansi resmi. 
+                    Setiap produk PramStore telah melewati quality control ketat dan dilengkapi dengan garansi resmi.
                     Kami berkomitmen memberikan produk terbaik dengan layanan pelanggan yang memuaskan.
                   </Typography>
                   <div className="bg-white p-4 rounded-lg border border-red-200">

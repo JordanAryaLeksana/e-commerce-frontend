@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export enum BooleanAction {
-  Tshirts = "Tshirts",
+  Tshirts = "Tshirt",
   Hoodies = "Hoodies",
   Streetwear = "Streetwear",
-  Luxury = "Luxury",
+  Luxury = "luxury",
   Jackets = "Jackets",
   Sweatshirts = "Sweatshirts",
 }

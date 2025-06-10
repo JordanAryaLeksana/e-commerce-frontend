@@ -1,9 +1,19 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import axiosClient from '@/lib/axios';
+
+
+enum Category {
+    Tshirts = "Tshirt",
+    Hoodies = "Hoodies",
+    Streetwear = "Streetwear",
+    Luxury = "luxury",
+    Jackets = "Jackets",
+    Sweatshirts = "Sweatshirts",
+}
 type DetailItems = {
     id: string;
     name: string;
-    type: string;
+    type: Category;
     price: number;
     description: string;
     image: string;

@@ -13,7 +13,7 @@ enum ItemType {
 
 interface ItemData {
   id: string;
-  type: keyof typeof ItemType;
+  type: ItemType;
   // type: "Tshirt" | "Hoodies" | "Streetwear" | "Luxury" | "Jackets" | "Sweatshirts";
   name: string;
   price: number;
@@ -42,7 +42,6 @@ export const fetchItems = createAsyncThunk<ItemData[]>(
     try {
       const res = await axiosClient.get("/items/getAllItems");
       console.log("Items fetched successfully:", res.data);
-
       return res.data.data.flatMap((group: { item: ItemData[] }) => group.item);
     } catch (err: any) {
       console.error("Error in fetchItems:", err);

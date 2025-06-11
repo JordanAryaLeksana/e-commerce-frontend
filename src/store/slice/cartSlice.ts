@@ -74,6 +74,28 @@ export const addToCart = createAsyncThunk<CartProps, CartProps>(
     }
 );
 
+
+export const updateCartItemAsync = createAsyncThunk<CartProps, CartProps>(
+    'cart/updateCartItem',
+    async (item, thunkAPI) => {
+        try {
+            const response = await axiosClient.put(`/cart/updateCartItem/${item.cartId}`, item);
+            if (response.status < 200 || response.status >= 300) {
+                throw new Error("Failed to update cart item");
+            }
+            console.log("Cart item updated successfully:", response.data.data.items[0]);
+            return response.data.data.items[0];
+        } catch (error: any) {
+            console.error("Update cart item error:", error.response?.data || error.message);
+            return thunkAPI.rejectWithValue(
+                error.response?.data?.errors ||
+                error.response?.data?.message ||
+                "Failed to update cart item"
+            );
+        }
+    }
+)
+
 export const clearCartAsync = createAsyncThunk<CartProps[], string>(
     'cart/clearCart',
     async (id, thunkAPI) => {
@@ -106,7 +128,26 @@ const cartSlice = createSlice({
             state: CartState
         ) => {
             state.cartItems = [];
+
         },
+        removeItem: (
+            state: CartState,
+            action: { payload: string } 
+        ) => {
+            state.cartItems = state.cartItems.filter(item => item.itemId !== action.payload);
+        },
+        updateQuantity: (
+            state: CartState,
+            action: { payload: { itemId: string; quantity: number } }
+        ) => {
+            const { itemId, quantity } = action.payload;
+            const item = state.cartItems.find((item) => item.itemId === itemId);
+            if (item) {
+                item.quantity = quantity;
+                item.totalPrice = item.price * quantity;
+            }
+            console.log("Updated item quantity:", itemId, "to", quantity)
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -142,5 +183,5 @@ const cartSlice = createSlice({
     }
 });
 
-export const { clearCart } = cartSlice.actions;
+export const { clearCart, updateQuantity, removeItem } = cartSlice.actions;
 export default cartSlice.reducer;

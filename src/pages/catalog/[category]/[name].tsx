@@ -103,7 +103,7 @@ export default function ProductPage() {
       totalPrice: (product.price || 2000000) * quantity,
       stock: product.stock,
       type: product.type,
-      userId: userId,
+      cartId: userId,
     }));
   };
   const handleBuyNow = () => {

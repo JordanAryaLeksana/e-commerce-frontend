@@ -11,7 +11,7 @@ enum Category {
     Sweatshirts = "Sweatshirts",
 }
 interface CartProps {
-    userId: string;
+    cartId: string;
     itemId: string;
     name: string;
     price: number;
@@ -26,7 +26,7 @@ interface CartProps {
 
 interface CartState {
     cartId?: string;
-    userId?: string;
+    // userId?: string;
     cartItems: CartProps[];
     addToCart?: CartProps;
     loading: boolean;
@@ -48,6 +48,7 @@ export const fetchCartItems = createAsyncThunk<CartProps[], string>(
                 throw new Error("Failed to fetch cart items");
             }
             console.log("Cart items fetched successfully:", response.data.data.items);
+            console.log("Cart Quantity:", response.data.data.items.length)
             return response.data.data.items;
         } catch (error: any) {
             console.error("Fetch cart error:", error.response?.data || error.message);
@@ -114,7 +115,7 @@ const cartSlice = createSlice({
             })
             .addCase(fetchCartItems.fulfilled, (state, action) => {
                 state.cartItems = action.payload;
-                state.userId = action.payload[0]?.userId || "";
+                // state.userId = action.payload[0]?.userId || "";
                 state.loading = false;
             })
             .addCase(fetchCartItems.rejected, (state, action) => {
@@ -134,7 +135,7 @@ const cartSlice = createSlice({
                     state.cartItems.push(action.payload);
                 }
 
-                state.userId = action.payload.userId;
+                state.cartId = action.payload.cartId;
                 state.loading = false;
             })
 

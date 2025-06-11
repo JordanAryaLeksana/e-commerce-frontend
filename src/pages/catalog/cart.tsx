@@ -9,14 +9,11 @@ import Cookies from "js-cookie";
 import { setToken } from "@/store/slice/authSlice";
 import { clearCartAsync, fetchCartItems } from "@/store/slice/cartSlice";
 import { HiOutlineTrash } from "react-icons/hi";
-import { fetchDecrement, fetchIncrement } from "@/store/slice/quantitySlice";
-import { getItemsByCategory } from "@/store/slice/itemsSlice";
+
+
 export default function CartPage() {
     const dispatch: AppDispatch = useDispatch();
     const router = useRouter();
-    const detailState = useSelector((state: RootState) => state.detail);
-
-    const ProductItems = detailState.items;
     const token = useSelector((state: RootState) => state.auth.token);
     const userId = Cookies.get("user_id");
 
@@ -32,46 +29,26 @@ export default function CartPage() {
         }
     }, [token, dispatch, router]);
 
-    const cart = useSelector((state: RootState) => state.cart);
-    const cartItems = cart?.cartItems || [];
-
-
+    const cartProducts = useSelector((state: RootState) => state.cart);
+    const cartProductsItems = cartProducts?.cartItems || [];
     const HandleClear = async () => {
         if (!userId || userId.trim() === '') {
             console.error('Invalid user ID');
             return;
         }
         try {
-            await dispatch(clearCartAsync(userId));
-            dispatch(fetchCartItems(userId));
+            if (!cartProducts.cartId) {
+                console.error('Invalid cart ID');
+                return;
+            }
+            await dispatch(clearCartAsync(cartProducts.cartId));
+            dispatch(fetchCartItems(cartProducts.cartId));
         } catch (error) {
             console.error('Failed to clear cart:', error);
         }
     };
 
-    const handleIncrement = async (itemId: string, cartId?: string) => {
-        if (!cartId) return;
-        try {
-            await dispatch(fetchIncrement({ productId: itemId, cartId }))
-            
-            dispatch(fetchCartItems(userId!));
-            console.log("Increment successful");
-        } catch (error) {
-            console.error("Increment failed:", error);
-        }
-    };
-
-    const handleDecrement = async (itemId: string, cartId?: string) => {
-        if (!cartId) return;
-        try {
-            await dispatch(fetchDecrement({ productId: itemId, cartId }));
-            dispatch(fetchCartItems(userId!));
-            console.log("Decrement successful");
-        } catch (error) {
-            console.error("Decrement failed:", error);
-        }
-    };
-
+    
    
 
     return (
@@ -80,8 +57,8 @@ export default function CartPage() {
                 <motion.section className="flex flex-col items-center justify-center w-full h-full">
                     <motion.div className="flex flex-col items-center relative w-full">
                         <h1 className="text-2xl font-bold mb-4">Cart Items</h1>
-                        {cartItems.length > 0 ? (
-                            cartItems.map((item) => (
+                        {cartProductsItems.length > 0 ? (
+                            cartProductsItems.map((item) => (
                                 <div key={item.itemId} className="flex flex-col w-full max-w-2xl mb-4 border rounded p-4">
                                     <h2 className="text-lg font-semibold">{item.name}</h2>
                                     <p>Price: ${item.price}</p>
@@ -90,14 +67,14 @@ export default function CartPage() {
                                     <div className="flex items-center gap-2 mt-2">
                                         <button
                                             className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
-                                            onClick={() => handleDecrement(item.itemId, item.userId)}
+                                            // onClick={}
                                         >
                                             -
                                         </button>
                                         <span>{item.quantity}</span>
                                         <button
                                             className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
-                                            onClick={() => handleIncrement(item.itemId, item.userId)}
+                                            // onClick={}
                                         >
                                             +
                                         </button>

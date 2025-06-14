@@ -11,7 +11,7 @@ import detailSlice from './slice/itemsDetail';
 import colaboratorSlice from './slice/collabsSlice';
 import authReducer from './slice/authSlice';
 import cartReducer from './slice/cartSlice';
-
+import orderReducer from './slice/orderSlice';
 
 const rootReducer = combineReducers({
   topup: topupReducer,
@@ -21,13 +21,14 @@ const rootReducer = combineReducers({
   colaborators: colaboratorSlice,
   auth: authReducer,
   cart: cartReducer,
+  order: orderReducer,
 
 });
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['cart', 'auth'], 
+  whitelist: ['cart', 'auth'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

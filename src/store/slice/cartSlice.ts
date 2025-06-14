@@ -23,10 +23,22 @@ interface CartProps {
     isOnSale?: boolean;
 }
 
-
+interface CheckoutCartProps {
+    userId: string;
+    items: {
+        itemId: string;
+        name: string;
+        quantity: number;
+        price: number;
+    }[]
+    total: number;
+    status: string;
+}
 interface CartState {
     cartId?: string;
     // userId?: string;
+    checkoutResult?: any;
+
     cartItems: CartProps[];
     addToCart?: CartProps;
     loading: boolean;
@@ -38,6 +50,8 @@ const initialState: CartState = {
     loading: false,
     error: null,
 }
+
+
 
 export const fetchCartItems = createAsyncThunk<CartProps[], string>(
     "cart/fetchCartItems",
@@ -57,6 +71,10 @@ export const fetchCartItems = createAsyncThunk<CartProps[], string>(
 
     }
 )
+
+
+
+
 export const addToCart = createAsyncThunk<CartProps, CartProps>(
     "cart/addToCart",
     async (item, thunkAPI) => {
@@ -126,13 +144,14 @@ const cartSlice = createSlice({
     reducers: {
         clearCart: (
             state: CartState
+            
         ) => {
             state.cartItems = [];
 
         },
         removeItem: (
             state: CartState,
-            action: { payload: string } 
+            action: { payload: string }
         ) => {
             state.cartItems = state.cartItems.filter(item => item.itemId !== action.payload);
         },
@@ -179,6 +198,8 @@ const cartSlice = createSlice({
                 state.cartId = action.payload.cartId;
                 state.loading = false;
             })
+    
+
 
     }
 });

@@ -293,7 +293,10 @@ export default function ProductPage() {
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={handleBuyNow}
+                  onClick={() => {
+                    console.log(product.id);
+                    router.push("/catalog/checkout/" + product.id + "?quantity=" + quantity);
+                  }}
                   className="w-full py-4 border-2 border-red-500 text-red-600 hover:bg-red-500 hover:text-white rounded-xl font-bold text-lg transition-all"
                 >
                   Beli Langsung

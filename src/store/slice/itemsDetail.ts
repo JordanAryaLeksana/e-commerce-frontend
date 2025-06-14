@@ -18,9 +18,7 @@ type DetailItems = {
     description: string;
     image: string;
     stock: number;
-    books: string[];
-    finalproject: string[];
-    tools: string[];
+    Category: Category;
 }
 
 type ItemsDetailState = {

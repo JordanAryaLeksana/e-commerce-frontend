@@ -21,7 +21,6 @@ interface User {
 export default function Header() {
     const router = useRouter();
     const dispatch = useDispatch<AppDispatch>();
-
     const getUserUser = async () => {
         try {
             const res = await axiosClient.get("/users/current");
@@ -33,7 +32,6 @@ export default function Header() {
         }
         return null;
     };
-
     const [user, setUser] = useState<User | null>(null);
     useEffect(() => {
         const fetchUser = async () => {
@@ -45,6 +43,7 @@ export default function Header() {
             }
         };
         fetchUser();
+
     }, []);
 
     return (

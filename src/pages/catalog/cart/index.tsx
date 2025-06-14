@@ -13,6 +13,7 @@ import {
   removeItem,
   updateQuantity,
 } from "@/store/slice/cartSlice";
+import { toast } from "react-hot-toast";
 import { HiOutlineTrash, HiOutlineShoppingCart, HiOutlineCreditCard } from "react-icons/hi";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 export default function CartPage() {
@@ -23,10 +24,11 @@ export default function CartPage() {
   const token = useSelector((state: RootState) => state.auth.token);
   const cartProducts = useSelector((state: RootState) => state.cart);
   const cartProductsItems = cartProducts?.cartItems || [];
- 
+  const total = cartProducts.cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   useEffect(() => {
     setHasMounted(true);
     const cookieToken = Cookies.get("access_token");
+    const userId = Cookies.get("user_id");
 
     if (!token && cookieToken) {
       dispatch(setToken(cookieToken));
@@ -35,7 +37,13 @@ export default function CartPage() {
     if (!(token || cookieToken)) {
       router.push("/login");
     }
+
+  
+    if (cookieToken && userId) {
+      dispatch(fetchCartItems(userId));
+    }
   }, [token, dispatch, router]);
+
 
   if (!hasMounted) return null;
 
@@ -59,11 +67,23 @@ export default function CartPage() {
   };
 
   const handleCheckout = async () => {
-    setIsCheckingOut(true);
-    setTimeout(() => {
-      setIsCheckingOut(false);
-      console.log("Proceeding to checkout...");
-    }, 2000);
+    // try {
+    //   await dispatch(({
+    //     userId: Cookies.get("user_id") || "",
+    //     items: cartProductsItems.map(item => ({
+    //       itemId: item.itemId,
+    //       name: item.name,
+    //       quantity: item.quantity,
+    //       price: item.price
+    //     })),
+    //     total: total,
+    //     status: "PENDING"
+    //   }))
+    //   router.push("/checkout/success");
+    // } catch (error) {
+    //   console.error("Checkout failed:", error);
+    //   toast.error("Checkout gagal, silakan coba lagi.");
+    // }
   };
 
   const totalCartPrice = cartProductsItems.reduce(
@@ -197,7 +217,7 @@ export default function CartPage() {
               >
                 <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-24">
                   <h3 className="text-xl font-semibold text-gray-800 mb-6">Ringkasan Pesanan</h3>
-                  
+
                   {/* Summary Details */}
                   <div className="space-y-4 mb-6">
                     <div className="flex justify-between text-gray-600">
@@ -269,12 +289,12 @@ export default function CartPage() {
                 <HiOutlineShoppingCart className="text-gray-400 text-4xl" />
               </div>
               <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-                
+
                 Oops your cart is empty!
               </h2>
               <p className="text-gray-600 mb-8">
-               
-                You havent added any products to your cart yet. 
+
+                You havent added any products to your cart yet.
               </p>
               <motion.button
                 whileHover={{ scale: 1.05 }}

@@ -3,7 +3,7 @@ import { store } from "@/store/store";
 import axios from "axios";
 import Cookies from "js-cookie";
 const axiosClient = axios.create({
-  baseURL: process.env.NEXT_API_PUBLIC_URL_PRODUCTION,
+  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api",
   headers: {
     "Content-Type": "application/json",
   },

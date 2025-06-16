@@ -17,6 +17,7 @@ import { FaTools } from "react-icons/fa";
 import { SiBlueprint } from "react-icons/si";
 import { BooleanAction, setAction, setIsOpen } from "@/store/slice/booleanSlice";
 import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import { setToken } from "@/store/slice/authSlice";
@@ -27,8 +28,8 @@ export default function CartItems() {
     const [isAuthChecked, setIsAuthChecked] = useState(false);
     const [selectedTopupType, setSelectedTopupType] = useState("Token Listrik");
     const [topupNumber, setTopupNumber] = useState("");
-    const [topupAmount , setTopupAmount] = useState("20rb");
-
+    const [topupAmount, setTopupAmount] = useState("20rb");
+    const pathname = usePathname();
     const responsive = {
         superLargeDesktop: {
             breakpoint: { max: 4000, min: 3000 },
@@ -64,19 +65,23 @@ export default function CartItems() {
         dispatch(setAction(category));
         dispatch(getItemsByCategory(category));
     };
+
+
     useEffect(() => {
         const cookieToken = Cookies.get("access_token");
-        if (!token && cookieToken) {
-            dispatch(setToken(cookieToken));
-        }
+        const isLoggedIn = token || (cookieToken && cookieToken !== "undefined");
 
-        if (token || cookieToken && cookieToken !== "undefined") {
+        if (!isLoggedIn && pathname !== "/login") {
+            router.push("/login");
+        } else if (isLoggedIn) {
+            if (!token && cookieToken) {
+                dispatch(setToken(cookieToken));
+            }
             setIsAuthChecked(true);
             dispatch(fetchItems());
-        } else {
-            router.push("/login");
         }
-    }, [token, dispatch, router]);
+    }, [token, dispatch, router, pathname]);
+
 
     const handleBayar = () => {
         if (!topupNumber.trim()) {
@@ -105,7 +110,7 @@ export default function CartItems() {
     return (
         <Layout withNavbar withFooter withHeader>
             <div className="w-full min-h-screen bg-gray-50 mt-64 md:mt-52 p-4 lg:p-8 space-y-8">
-               
+
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -253,7 +258,7 @@ export default function CartItems() {
                                         Sweatshirts
                                     </Typography>
                                 </motion.button>
-                               
+
                             </div>
 
                             {/* Filtered Products */}

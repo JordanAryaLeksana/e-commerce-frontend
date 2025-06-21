@@ -11,7 +11,6 @@ enum Category {
     Sweatshirts = "Sweatshirts",
 }
 interface CartProps {
-    cartId: string;
     itemId: string;
     name: string;
     price: number;
@@ -22,6 +21,12 @@ interface CartProps {
     type?: Category;
     isOnSale?: boolean;
 }
+
+interface AddToCartPayload extends CartProps {
+  userId: string;
+}
+
+
 
 interface CheckoutCartProps {
     userId: string;
@@ -36,9 +41,8 @@ interface CheckoutCartProps {
 }
 interface CartState {
     cartId?: string;
-    // userId?: string;
+    userId?: string;
     checkoutResult?: any;
-
     cartItems: CartProps[];
     addToCart?: CartProps;
     loading: boolean;
@@ -75,7 +79,7 @@ export const fetchCartItems = createAsyncThunk<CartProps[], string>(
 
 
 
-export const addToCart = createAsyncThunk<CartProps, CartProps>(
+export const addToCart = createAsyncThunk<CartProps, AddToCartPayload>(
     "cart/addToCart",
     async (item, thunkAPI) => {
         try {
@@ -97,7 +101,7 @@ export const updateCartItemAsync = createAsyncThunk<CartProps, CartProps>(
     'cart/updateCartItem',
     async (item, thunkAPI) => {
         try {
-            const response = await axiosClient.put(`/cart/updateCartItem/${item.cartId}`, item);
+            const response = await axiosClient.put(`/cart/updateCartItem/${item.itemId}`, item);
             if (response.status < 200 || response.status >= 300) {
                 throw new Error("Failed to update cart item");
             }
@@ -195,7 +199,7 @@ const cartSlice = createSlice({
                     state.cartItems.push(action.payload);
                 }
 
-                state.cartId = action.payload.cartId;
+                // state.cartId = action.payload.cartId; // Removed because CartProps does not have cartId
                 state.loading = false;
             })
     

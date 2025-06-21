@@ -91,7 +91,7 @@ export default function CartItems() {
         toast.success(`Pembayaran ${selectedTopupType} ${topupAmount} untuk nomor ${topupNumber} berhasil!`);
     };
 
-    // Show loading while checking authentication
+   
     if (!isAuthChecked) {
         return (
             <Layout withNavbar withFooter withHeader>

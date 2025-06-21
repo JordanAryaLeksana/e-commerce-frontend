@@ -13,17 +13,17 @@ import {
   removeItem,
   updateQuantity,
 } from "@/store/slice/cartSlice";
-import { toast } from "react-hot-toast";
+// import { toast } from "react-hot-toast";
 import { HiOutlineTrash, HiOutlineShoppingCart, HiOutlineCreditCard } from "react-icons/hi";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 export default function CartPage() {
   const [hasMounted, setHasMounted] = useState(false);
-  const [isCheckingOut, setIsCheckingOut] = useState(false);
   const dispatch: AppDispatch = useDispatch();
   const router = useRouter();
   const token = useSelector((state: RootState) => state.auth.token);
   const cartProducts = useSelector((state: RootState) => state.cart);
   const cartProductsItems = cartProducts?.cartItems || [];
+  console.log(cartProductsItems)
   const total = cartProducts.cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   useEffect(() => {
     setHasMounted(true);
@@ -38,11 +38,8 @@ export default function CartPage() {
       router.push("/login");
     }
 
-  
-    if (cookieToken && userId) {
-      dispatch(fetchCartItems(userId));
-    }
   }, [token, dispatch, router]);
+
 
 
   if (!hasMounted) return null;
@@ -52,11 +49,8 @@ export default function CartPage() {
     dispatch(updateQuantity({ itemId, quantity }));
   };
 
-  const handleRemoveItem = (itemId: string) => {
+  const handleRemoveItem = async (itemId: string) => {
     dispatch(removeItem(itemId));
-  };
-
-  const HandleClear = async () => {
     if (!cartProducts.cartId) return;
     try {
       await dispatch(clearCartAsync(cartProducts.cartId));
@@ -140,18 +134,10 @@ export default function CartPage() {
                 className="lg:col-span-2"
               >
                 <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
-                  <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-xl font-semibold text-gray-800">
-                      Produk ({cartProductsItems.length} item)
-                    </h2>
-                    <button
-                      onClick={HandleClear}
-                      className="text-red-500 hover:text-red-700 font-medium text-sm transition-colors"
-                    >
-                      Kosongkan Keranjang
-                    </button>
-                  </div>
 
+                  <h2 className="text-xl font-semibold text-gray-800">
+                    Produk ({cartProductsItems.length} item)
+                  </h2>
                   <div className="space-y-4">
                     {cartProductsItems.map((item, index) => (
                       <motion.div
@@ -243,21 +229,11 @@ export default function CartPage() {
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    onClick={handleCheckout}
-                    disabled={isCheckingOut}
+                    onClick={() => router.push(`/catalog/checkout ${cartProducts.cartId}`)}
                     className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-4 px-6 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
                   >
-                    {isCheckingOut ? (
-                      <>
-                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                        <span>Memproses...</span>
-                      </>
-                    ) : (
-                      <>
-                        <HiOutlineCreditCard className="text-xl" />
-                        <span>Checkout Sekarang</span>
-                      </>
-                    )}
+                    <HiOutlineCreditCard className="text-xl" />
+                    <span>Checkout Sekarang</span>
                   </motion.button>
 
                   {/* Additional Actions */}

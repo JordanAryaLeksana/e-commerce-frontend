@@ -39,8 +39,7 @@ export default function ProductPage() {
   }, [router.isReady, router.query, dispatch]);
 
   const detailState = useSelector((state: RootState) => state.detail);
-  console.log('detailState:', detailState.items);
-  const productData = detailState.items;
+  const productData = detailState.items ?? [];
   const loading = useSelector((state: RootState) => state.detail.loading);
 
   if (!router.isReady || loading) {
@@ -103,7 +102,7 @@ export default function ProductPage() {
       totalPrice: (product.price || 2000000) * quantity,
       stock: product.stock,
       type: product.type,
-      cartId: userId,
+      userId: userId,
     }));
   };
   const handleBuyNow = () => {

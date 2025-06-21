@@ -42,7 +42,7 @@ export default function CheckoutPage() {
   console.log(getProduct);
   console.log("Single Item:", singleItem);
   const token = useSelector((state: RootState) => state.auth.token);
-  const cartProductsItems = cartProducts.filter((item) => item.cartId === cartId);
+  const cartProductsItems = cartProducts.filter((item) => item.itemId === cartId);
   const checkoutItems = id
     ? singleItem
       ? [
